@@ -19,4 +19,11 @@ router.get('/posts', function(req, res, next){
     res.render('posts', {title: 'Hello posts'});
 });
 
+
+// GET create page
+router.get('/posts/create', function(req, res, next){
+    console.log("Get create page");
+    res.render('create', {title: 'create'});
+});
+
 module.exports = router;

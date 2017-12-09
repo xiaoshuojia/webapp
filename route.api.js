@@ -11,8 +11,11 @@ router.get('/posts/list', function(req, res, next) {
   res.json({PostsList: ['文章1', '文章2', '文章3']});
 });
 
-router.get('/posts', function(req, res, next){
-    res.render('posts', {title: 'Hello posts'});
+router.post('/posts/create', function(req, res, next){
+  console.log("post create information");
+  console.log('title:' + req.body.title);
+  console.log('content: ' + req.body.content);
+  res.json({success: true});
 })
 
 module.exports = router;
