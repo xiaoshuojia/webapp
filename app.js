@@ -8,6 +8,9 @@ var http = require('http');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var posts = require('./routes/posts');
+var api = require('./route.api');
+var page = require('./route.page');
+
 var app = express();
 
 // view engine setup
@@ -22,9 +25,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
-app.use('/posts', posts);
+// app.use('/', index);
+// app.use('/users', users);
+// app.use('/posts', posts);
+// 路由归类
+app.use('/', page);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
