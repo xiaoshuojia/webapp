@@ -10,7 +10,7 @@
       <div id="app">
           <h1><%= title %></h1>
 
-          <p v-for="item in PostsList">{{ item }}</p>
+          <p v-for="item in PostsList">{{ item.title }}</p>
       </div>
 
   </body>
@@ -23,7 +23,7 @@
         },
         methods: {
             fetchData() {
-                axios.get('/api/posts/list').then(function(response){
+                axios.get('/api/posts').then(function(response){
                     vm.PostsList = response.data.PostsList;
                     console.log(vm.PostsList);
                 })

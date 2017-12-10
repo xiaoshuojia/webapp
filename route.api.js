@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var PostModel = require('./models/post');
 
 /* GET posts list . */
 router.get('/posts/list', function(req, res, next) {
@@ -15,7 +16,41 @@ router.post('/posts/create', function(req, res, next){
   console.log("post create information");
   console.log('title:' + req.body.title);
   console.log('content: ' + req.body.content);
-  res.json({success: true});
-})
+  var title = req.body.title;
+  var content = req.body.content;
+
+  if (title === '' || content === '')
+  {
+    console.log('标题或者内容不同为空');
+    // return next('标题或者内容不同为空');
+    // 返回一个错误提示
+    res.send({success: false, err: '标题或者内容不同为空'});
+  }
+  // save the title and content
+  var post = new PostModel();
+  post.title = title;
+  post.content = content;
+  post.save(function(err, doc){
+    res.json({success: true});
+  })
+
+});
+
+// get posts
+router.get('/posts', function(req, res, next){
+  // Get posts from MongoDb
+  console.log('Get posts from MongoDb');
+  PostModel.find({}, {}, function(err, posts){
+    if (err){
+      res.json({success: false});
+      return;
+    }
+    else {
+      res.json({success: true, PostsList: posts});
+    }
+  });
+});
+
+
 
 module.exports = router;
