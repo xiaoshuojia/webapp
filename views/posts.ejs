@@ -10,7 +10,12 @@
       <div id="app">
           <h1><%= title %></h1>
 
-          <p v-for="item in PostsList">{{ item.title }}</p>
+          <!-- <p v-for="item in PostsList">{{ item.title }}</p> -->
+
+          <!-- 文章列表跳转过去，也就是每个文章列表都是超链接，链接到文章详情的页面 -->
+          <div v-for="item in PostsList">
+            <a v-bind:href="item.url" >{{ item.title }}</a>
+          </div>
       </div>
 
   </body>
@@ -23,8 +28,17 @@
         },
         methods: {
             fetchData() {
-                axios.get('/api/posts').then(function(response){
+                axios.get('/api/posts')
+                .then(function(response){
                     vm.PostsList = response.data.PostsList;
+                    // 给每个变量的设置url地址
+                    // vm.PostsList.forEach((element) => element.url = '/posts/show?id=' + element._id);
+
+                    // 箭头函数是将原来的额函数改为了箭头，其等价函数应该如下，亲测没毛病
+                    vm.PostsList.forEach(function(element){
+                      element.url = '/posts/show?id=' + element._id;
+                    });
+
                     console.log(vm.PostsList);
                 })
             }

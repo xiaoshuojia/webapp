@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var PostModel = require('./models/post');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -25,5 +26,19 @@ router.get('/posts/create', function(req, res, next){
     console.log("Get create page");
     res.render('create', {title: 'create'});
 });
+
+
+// GET the specific ariticle content
+router.get('/posts/show', function(req, res, next){
+  console.log("Get /posts/show specific ariticle detail");
+  var id = req.query.id;
+  // 这里的function第一个参数是错误，第二个就是我们查询得到的结果。
+  // PostModel.findOne({_id: id}, function(err, article){
+  //   res.render('show', {article});
+  // });
+  // 测试箭头函数
+  PostModel.findOne({_id: id}, (err, article) => res.render('show', {article}));
+});
+
 
 module.exports = router;
