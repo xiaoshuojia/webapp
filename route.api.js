@@ -32,8 +32,7 @@ router.post('/posts/create', function(req, res, next){
   post.content = content;
   post.save(function(err, doc){
     res.json({success: true});
-  })
-
+  });
 });
 
 // get posts

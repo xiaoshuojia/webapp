@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var PostModel = require('./models/post');
+var marked = require('marked');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -37,7 +38,11 @@ router.get('/posts/show', function(req, res, next){
   //   res.render('show', {article});
   // });
   // 测试箭头函数
-  PostModel.findOne({_id: id}, (err, article) => res.render('show', {article}));
+  PostModel.findOne({_id: id}, (err, article) => {
+    // markdown 使用
+    article.content = marked(article.content);
+    res.render('show', {article});
+  });
 });
 
 
