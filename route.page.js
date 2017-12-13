@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var PostModel = require('./models/post');
 var marked = require('marked');
+var MarkdownIt = require('markdown-it');
+var md = new MarkdownIt();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -40,7 +42,10 @@ router.get('/posts/show', function(req, res, next){
   // 测试箭头函数
   PostModel.findOne({_id: id}, (err, article) => {
     // markdown 使用
-    article.content = marked(article.content);
+    // article.content = marked(article.content);
+
+    // 使用markdown-it渲染
+    article.content = md.render(article.content);
     res.render('show', {article});
   });
 });
