@@ -3,9 +3,18 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <div class="container">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="jumbotron">
+          <h1>你好大千世界</h1>
+          <p>這是我的的世界</p>
+          <p><a class="btn btn-primary btn-lg" href="/posts" role="button">欢迎进入我的世界</a></p>
+          <p><a href="/users" role="link">用户</a></p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
