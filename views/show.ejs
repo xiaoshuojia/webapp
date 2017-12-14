@@ -3,10 +3,27 @@
   <head>
     <title><%= article.title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://cdn.bootcss.com/vue/2.4.4/vue.min.js" charset="utf-8"></script>
+    <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   </head>
   <body>
     <div id="app">
+      <!-- 添加编辑文章的按钮，使用Split button -->
+      <div class="btn-group pull-right">
+        <button type="button" class="btn btn-default" name="button">操作</button>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="button">
+          <span class="caret"></span>
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+
+          <!-- <li><a href="/posts/create">编辑</a></li> -->
+          <li><a href="/posts/edit?id=<%= article._id %>">编辑</a></li>
+
+        </ul>
+      </div>
       <h1><%= article.title %></h1>
       <!-- <p><%= article.content %></p> -->
       <!-- 使用markdown语言显示 -->
