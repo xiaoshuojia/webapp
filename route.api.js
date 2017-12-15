@@ -12,7 +12,7 @@ router.get('/posts/list', function(req, res, next) {
   res.json({PostsList: ['文章1', '文章2', '文章3']});
 });
 
-router.post('/posts/create', function(req, res, next){
+router.post('/posts', function(req, res, next){
   console.log("post create information");
   console.log('title:' + req.body.title);
   console.log('content: ' + req.body.content);
@@ -51,20 +51,23 @@ router.get('/posts', function(req, res, next){
 });
 
 // get on specific article
-router.get('/posts/one', function(req, res, next){
-  var id = req.query.id;
-
+router.get('/posts/:id', function(req, res, next){
+  // var id = req.query.id;
+  var id = req.params.id;
+  console.log('post/:id = ', id);
   PostModel.findOne({_id: id}, function(err, post){
     if (err){
+      console.log('can not find the article');
       res.json({success: false});
       return;
     };
+    console.log('find the article');
     res.json({success: true, post});
   });
 });
 
 // post edit ariticle
-router.post('/posts/edit', function(req, res, next){
+router.patch('/posts', function(req, res, next){
   var id = req.body.id;
   var title = req.body.title;
   var content = req.body.content;

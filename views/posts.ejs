@@ -42,7 +42,7 @@
         },
         methods: {
             fetchData() {
-                axios.get('/api/posts')
+                axios.get('/api/v1/posts')
                 .then(function(response){
                     vm.PostsList = response.data.PostsList;
                     // 给每个变量的设置url地址

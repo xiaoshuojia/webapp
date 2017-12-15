@@ -21,8 +21,9 @@ var vm = new Vue({
   },
   // 这个函数应该是创建页面，我自己的理解
   created(){
-    axios.get('/api/posts/one?id=' + postId)
+    axios.get('/api/v1/posts/' + postId)
     .then(function(response){
+      console.log('response.data.post:' + response.data.post);
       vm.title = response.data.post.title;
       vm.content = response.data.post.content;
     })
@@ -32,7 +33,7 @@ var vm = new Vue({
   },
   methods:{
     submit(){
-      axios.post('/api/posts/edit', {
+      axios.patch('/api/v1/posts', {
         id: postId,
         title: vm.title,
         content: vm.content

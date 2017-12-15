@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/posts', posts);
 // 路由归类
 app.use('/', page)
-.use('/api', api);
+.use('/api/v1', api); // use the version
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
