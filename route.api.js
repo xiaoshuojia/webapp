@@ -31,7 +31,11 @@ router.post('/posts', function(req, res, next){
   post.title = title;
   post.content = content;
   post.save(function(err, doc){
-    res.json({success: true});
+    if (err){
+      next(err);
+      return;
+    }
+    res.json({post: doc});  // 返回新建的文章数据
   });
 });
 
@@ -41,7 +45,8 @@ router.get('/posts', function(req, res, next){
   console.log('Get posts from MongoDb');
   PostModel.find({}, {}, function(err, posts){
     if (err){
-      res.json({success: false});
+      // res.json({success: false});
+      next(err);
       return;
     }
     else {
@@ -58,7 +63,8 @@ router.get('/posts/:id', function(req, res, next){
   PostModel.findOne({_id: id}, function(err, post){
     if (err){
       console.log('can not find the article');
-      res.json({success: false});
+      // res.json({success: false});
+      next(err);
       return;
     };
     console.log('find the article');
@@ -74,7 +80,8 @@ router.patch('/posts', function(req, res, next){
 
   PostModel.findOneAndUpdate({_id: id}, {title, content}, function(err){
     if (err){
-      res.json({success: false});
+      // res.json({success: false});
+      next(err);
       return ;
     }
     res.json({success: true});

@@ -39,7 +39,11 @@ var vm = new Vue({
         content: vm.content
       })
       .then(function(response){
-        alert(JSON.stringify(response.data));
+        // alert(JSON.stringify(response.data));
+        return response.data;
+      })
+      .then(function(data){
+        window.location = '/posts/show?id=' + postId;
       })
       .catch(function(err){
         alert(err);

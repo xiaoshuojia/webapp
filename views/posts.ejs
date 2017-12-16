@@ -51,7 +51,10 @@
                     // 箭头函数是将原来的额函数改为了箭头，其等价函数应该如下，亲测没毛病
                     vm.PostsList.forEach(function(element){
                       element.url = '/posts/show?id=' + element._id;
-                    });
+                    })
+                    .catch(err){
+                      alert(err);
+                    };
 
                     console.log(vm.PostsList);
                 })

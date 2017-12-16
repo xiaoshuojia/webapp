@@ -44,6 +44,10 @@ router.get('/posts/show', function(req, res, next){
     // markdown 使用
     // article.content = marked(article.content);
 
+    if (err){
+      next(err);
+      return;
+    }
     // 使用markdown-it渲染
     article.content = md.render(article.content);
     res.render('show', {article});
@@ -55,7 +59,7 @@ router.get('/posts/edit', function(req, res, next){
   var id = req.query.id;
 
   res.render('edit', { id });
-  
+
 });
 
 
