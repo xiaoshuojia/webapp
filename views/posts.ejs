@@ -44,6 +44,7 @@
             fetchData() {
                 axios.get('/api/v1/posts')
                 .then(function(response){
+                  console.log('response:' + response);
                     vm.PostsList = response.data.PostsList;
                     // 给每个变量的设置url地址
                     // vm.PostsList.forEach((element) => element.url = '/posts/show?id=' + element._id);
@@ -51,13 +52,12 @@
                     // 箭头函数是将原来的额函数改为了箭头，其等价函数应该如下，亲测没毛病
                     vm.PostsList.forEach(function(element){
                       element.url = '/posts/show?id=' + element._id;
-                    })
-                    .catch(err){
-                      alert(err);
-                    };
-
+                    });
                     console.log(vm.PostsList);
                 })
+                .catch(function(err){
+                  alert(err);
+                });
             }
         }
     })

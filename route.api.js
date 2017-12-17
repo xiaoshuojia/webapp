@@ -44,12 +44,15 @@ router.get('/posts', function(req, res, next){
   // Get posts from MongoDb
   console.log('Get posts from MongoDb');
   PostModel.find({}, {}, function(err, posts){
+    console.log('find the posts');
     if (err){
       // res.json({success: false});
+      console.log('get posts page error ');
       next(err);
       return;
     }
     else {
+      console.log('posts:' + posts);
       res.json({success: true, PostsList: posts});
     }
   });
