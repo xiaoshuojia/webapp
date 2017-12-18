@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var PostModel = require('./models/post');
+var bcrypt = require('bcrypt');
+var UserModel = require('./models/user');
+var config = require('./config');
 
 /* GET posts list . */
 router.get('/posts/list', function(req, res, next) {
@@ -90,5 +93,62 @@ router.patch('/posts', function(req, res, next){
     res.json({success: true});
   });
 });
+
+
+// POST signup user
+router.post('/signup', function(req, res, next){
+  var name = req.body.name;
+  var pass = req.body.pass;
+  var rePass = req.body.rePass;
+
+  if (pass !== rePass){
+    return errorHandle(new Error("两次密码不一致"), next);
+  }
+
+  var user = new UserModel();
+  user.name = name ;
+  user.pass = bcrypt.hashSync(pass, 10);  // 网络上传递的是明文啊，会不会有影响
+  user.save(function(err){
+    if (err){
+      next(err);
+    }
+    else {
+      res.end();
+    }
+  });
+});
+
+// POST signin user
+router.post('/signin', function(req, res, next){
+  var name = req.body.name || '';
+  var pass = req.body.pass || '';
+
+  UserModel.findOne({name}, function(err, user){
+    if (err || !user){
+      return next(new Error('找不到用户'));
+
+    }
+    else {
+      var isOk = bcrypt.compareSync(pass, user.pass);
+      if (!isOk){
+        return next(new Error('密码不对'));
+      }
+
+      var authToken = user._id;
+      var opts = {
+        path: '/',
+        maxAge: 1000 * 60 * 60 * 24 * 30, //cookie 有效期30天
+        signed: true,
+        httpOnly: true
+
+      };
+
+      res.cookie(config.cookieName, authToken, opts);
+      res.end();
+    }
+  });
+});
+
+
 
 module.exports = router;

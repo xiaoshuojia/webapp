@@ -12,6 +12,8 @@ var posts = require('./routes/posts');
 var api = require('./route.api');
 var page = require('./route.page');
 var expressLayouts = require('express-ejs-layouts');
+var config = require('./config');
+var auth = require('./middlewares/auth');
 
 var app = express();
 
@@ -25,13 +27,15 @@ app.use(expressLayouts);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(config.cookieName)); // 解析cookie
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // app.use('/', index);
 // app.use('/users', users);
 // app.use('/posts', posts);
 // 路由归类
+app.use(auth.authUser);
 app.use('/', page)
 .use('/api/v1', api); // use the version
 
