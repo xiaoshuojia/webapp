@@ -3,6 +3,8 @@ var router = express.Router();
 var PostModel = require('./models/post');
 var marked = require('marked');
 var MarkdownIt = require('markdown-it');
+var config = require('./middlewares/auth');
+
 var md = new MarkdownIt();
 
 /* GET home page. */
@@ -72,5 +74,26 @@ router.get('/signin', function(req, res, next){
   console.log('page signin');
   res.render('signin');
 });
+
+// GET signout page
+router.get('/signout', function(req, res, next){
+  console.log('signout page ');
+  res.locals.currentUser = null;
+
+  var authToken = req.signedCookies[config.cookieName] || '';;
+  var opts = {
+    path: '/',
+    // maxAge: 1000 * 60 * 60 * 24 * 30, //cookie 有效期30天
+    // maxAge: -1,     // 只有浏览器打开的这段时间有效，关闭之后无效
+    maxAge: 0, // 不记录cookie
+    signed: true,
+    httpOnly: true
+  };
+
+  res.cookie(config.cookieName, authToken, opts);
+
+  res.render('signout');
+});
+
 
 module.exports = router;

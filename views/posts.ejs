@@ -1,4 +1,5 @@
 <!-- 添加新建文章的按钮，使用Split button -->
+<% if (currentUser) { %>
 <div class="btn-group pull-right">
   <button type="button" class="btn btn-default" name="button">操作</button>
   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="button">
@@ -9,6 +10,7 @@
     <li><a href="/posts/create">新建</a></li>
   </ul>
 </div>
+<% } %>
 <!-- 文章显示和内容其实两者不相关，他们是不同的处理方式，一个是css，一个是关于内容 -->
   <div class="container">
     <div class="col-md-8 col-md-offset-2">

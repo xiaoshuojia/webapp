@@ -3,6 +3,7 @@ var UserModel = require('../models/user');
 
 function authUser(req, res, next){
   const authToken = req.signedCookies[config.cookieName] || '';
+  console.log('authToken: ' + authToken);
   res.locals.currentUser = null;
 
   if (authToken){

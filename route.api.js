@@ -19,6 +19,7 @@ router.post('/posts', function(req, res, next){
   console.log("post create information");
   console.log('title:' + req.body.title);
   console.log('content: ' + req.body.content);
+
   var title = req.body.title;
   var content = req.body.content;
 
@@ -33,6 +34,7 @@ router.post('/posts', function(req, res, next){
   var post = new PostModel();
   post.title = title;
   post.content = content;
+  post.authorId = res.locals.currentUser._id;
   post.save(function(err, doc){
     if (err){
       next(err);
@@ -137,7 +139,9 @@ router.post('/signin', function(req, res, next){
       var authToken = user._id;
       var opts = {
         path: '/',
-        maxAge: 1000 * 60 * 60 * 24 * 30, //cookie 有效期30天
+        // maxAge: 1000 * 60 * 60 * 24 * 30, //cookie 有效期30天
+        // maxAge: -1,     // 只有浏览器打开的这段时间有效，关闭之后无效
+        maxAge: 1000 * 60, // 使用1分钟的有效时长
         signed: true,
         httpOnly: true
 
