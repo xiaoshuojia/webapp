@@ -1,5 +1,9 @@
 <!-- 添加编辑文章的按钮，使用Split button -->
-<% if (currentUser && currentUser._id.toString() === article.authorId.toString()){ %>
+<!-- <% if (currentUser){  %>
+  <p>currentUser: <%- currentUser %></p>
+  <% } %> -->
+
+<% if ((currentUser) && (article.authorId) && (currentUser && currentUser._id.toString() === article.authorId.toString())) { %>
 <div class="btn-group pull-right">
   <button type="button" class="btn btn-default" name="button">操作</button>
   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="button">
@@ -18,3 +22,5 @@
 <!-- <p><%= article.content %></p> -->
 <!-- 使用markdown语言显示 -->
 <p><%- article.content %></p>
+<!-- <p>authorId: <%= article.authorId %></p>
+<p>_id: <%= currentUser._id %></p> -->

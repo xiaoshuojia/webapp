@@ -79,22 +79,22 @@ router.get('/signin', function(req, res, next){
 router.get('/signout', function(req, res, next){
   console.log('signout page ');
   // res.locals.currentUser = null;
-  
-  var authToken = req.signedCookies[config.cookieName] || '';;
-  var opts = {
-    path: '/',
-    // maxAge: 1000 * 60 * 60 * 24 * 30, //cookie 有效期30天
-    // maxAge: -1,     // 只有浏览器打开的这段时间有效，关闭之后无效
-    maxAge: 0, // 不记录cookie
-    signed: true,
-    httpOnly: true
-  };
-  res.cookie(config.cookieName, authToken, opts);
-  res.render('signout');
 
-  // res.clearCookie(config.cookieName, {path: '/'});
-  // console.log('Clear the cookie: ' + config.cookieName);
-  // res.redirect('/');
+  // var authToken = req.signedCookies[config.cookieName] || '';;
+  // var opts = {
+  //   path: '/',
+  //   // maxAge: 1000 * 60 * 60 * 24 * 30, //cookie 有效期30天
+  //   // maxAge: -1,     // 只有浏览器打开的这段时间有效，关闭之后无效
+  //   maxAge: 0, // 不记录cookie
+  //   signed: true,
+  //   httpOnly: true
+  // };
+  // res.cookie(config.cookieName, authToken, opts);
+  // res.render('signout');
+
+  res.clearCookie(config.cookieName, {path: '/'});
+  console.log('Clear the cookie: ' + config.cookieName);
+  res.redirect('/');
 });
 
 

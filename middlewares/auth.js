@@ -13,6 +13,7 @@ function authUser(req, res, next){
       }
       else{
         res.locals.currentUser = user;
+        console.log('res.logcals.currentUser:' + res.locals.currentUser);
         next();
       }
 

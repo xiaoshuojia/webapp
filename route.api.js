@@ -141,7 +141,7 @@ router.post('/signin', function(req, res, next){
         path: '/',
         // maxAge: 1000 * 60 * 60 * 24 * 30, //cookie 有效期30天
         // maxAge: -1,     // 只有浏览器打开的这段时间有效，关闭之后无效
-        maxAge: 1000 * 60, // 使用1分钟的有效时长
+        maxAge: 1000 * 60 * 60 * 24 * 30, // 使用1分钟的有效时长
         signed: true,
         httpOnly: true
 
