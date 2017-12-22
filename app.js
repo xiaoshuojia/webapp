@@ -54,7 +54,23 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+
+  // better error handle
+  res.format({
+    json(){
+      res.send({error: err.toString()});
+    },
+    html(){
+      res.render('error');
+    },
+    default(){
+      const message = `${errorDetails}`;
+      console.log('message: ' + message);
+      console.log('error: ' + err.toString());
+      res.send(`500 internal server error\n${err.toString()}`);
+    }
+  });
+
 });
 
 
