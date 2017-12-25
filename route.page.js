@@ -4,6 +4,7 @@ var PostModel = require('./models/post');
 var marked = require('marked');
 var MarkdownIt = require('markdown-it');
 var config = require('./config');
+var auth = require('./middlewares/auth');
 
 var md = new MarkdownIt();
 
@@ -14,7 +15,7 @@ router.get('/', function(req, res, next) {
 });
 
 // GET users page
-router.get('/users', function(req, res, next){
+router.get('/users', auth.adminRequired, function(req, res, next){
     console.log('Get /users page');
     res.send("zhangsan\n lisi\n wangerwangzi");
 });
@@ -27,7 +28,7 @@ router.get('/posts', function(req, res, next){
 
 
 // GET create page
-router.get('/posts/create', function(req, res, next){
+router.get('/posts/create', auth.adminRequired, function(req, res, next){
     console.log("Get create page");
     res.render('create', {title: 'create'});
 });
@@ -57,7 +58,7 @@ router.get('/posts/show', function(req, res, next){
 });
 
 // get edit page
-router.get('/posts/edit', function(req, res, next){
+router.get('/posts/edit',  function(req, res, next){
   var id = req.query.id;
 
   res.render('edit', { id });

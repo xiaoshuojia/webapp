@@ -14,7 +14,10 @@ var page = require('./route.page');
 var expressLayouts = require('express-ejs-layouts');
 var config = require('./config');
 var auth = require('./middlewares/auth');
+var connectMongodb = require('connect-mongo');
+var session = require('express-session');
 
+var mongoStore = new connectMongodb(session);
 var app = express();
 
 // view engine setup
@@ -35,6 +38,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/users', users);
 // app.use('/posts', posts);
 // 路由归类
+// 使用session
+app.use(
+  session({
+    secret: config.sessionSecret,
+    store:  new mongoStore({url: config.mongodbUrl}),
+    resave: true,
+    saveUninitialized: true
+  })
+);
 app.use(auth.authUser);
 app.use('/', page)
 .use('/api/v1', api); // use the version
