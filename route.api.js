@@ -122,6 +122,7 @@ router.post('/signup', function(req, res, next){
 
 // POST signin user
 router.post('/signin', function(req, res, next){
+  console.log('post signin ');
   var name = req.body.name || '';
   var pass = req.body.pass || '';
 

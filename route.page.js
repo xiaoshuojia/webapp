@@ -78,7 +78,7 @@ router.get('/signin', function(req, res, next){
 
 // GET signout page
 router.get('/signout', function(req, res, next){
-  // console.log('signout page ');
+  console.log('signout page ');
   // res.locals.currentUser = null;
 
   // var authToken = req.signedCookies[config.cookieName] || '';;
