@@ -27,9 +27,10 @@ function authUser(req, res, next){
           //  哦啦
           user = user.toObject();
           console.log('user.name: ' + user.name);
-          if(user.name === config.admin){  // 管理员
-            user.isAdmin = true;
-          }
+          // if(user.name === config.admin){  // 管理员
+          //   user.isAdmin = true;
+          // }
+          user.isAdmin = user.name === config.admin;  // 精简代码
           req.session.user = user;  // 为什么给req？为了保存信息，用来判断是不是已有的用户
           console.log('req.session.user.isAdmin: ' + req.session.user.isAdmin);
           console.log('user: '+ user);
