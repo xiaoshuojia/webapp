@@ -92,7 +92,7 @@ router.get('/signout', function(req, res, next){
   // };
   // res.cookie(config.cookieName, authToken, opts);
   // res.render('signout');
-
+  req.session.user = null;  // 因为使用了session来确定登录情况，所以要去掉req中的session的信息
   res.clearCookie(config.cookieName, {path: '/'});
   console.log('Clear the cookie: ' + config.cookieName);
   res.redirect('/');
