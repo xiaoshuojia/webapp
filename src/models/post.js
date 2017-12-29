@@ -1,8 +1,12 @@
 // create a new table for saving the article
-var mongoose = require('mongoose');
+// var mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;   // 这个ObjectId是个什么
+//es6 code
+import mongoose from 'mongoose';
+
+
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;   // 这个ObjectId是个什么
 
 var PostSchema = new Schema({
   title: String,

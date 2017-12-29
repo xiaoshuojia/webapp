@@ -1,11 +1,15 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+// var mongoose = require('mongoose');
+// es6 code
+import mongoose from 'mongoose';
 
-var UserSchema = new Schema({
+const Schema = mongoose.Schema;
+
+const UserSchema = new Schema({
   name: String,
   pass: String
 });
 
 const UserModel = mongoose.model('User', UserSchema);
 
-module.exports = UserModel;
+// module.exports = UserModel;
+export default UserModel;

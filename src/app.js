@@ -1,24 +1,43 @@
 require('./models/init');
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var http = require('http');
-var index = require('./routes/index');
-var users = require('./routes/users');
-var posts = require('./routes/posts');
-var api = require('./route.api');
-var page = require('./route.page');
-var expressLayouts = require('express-ejs-layouts');
-var config = require('./config');
-var auth = require('./middlewares/auth');
-var connectMongodb = require('connect-mongo');
-var session = require('express-session');
+// var express = require('express');
+// var path = require('path');
+// var favicon = require('serve-favicon');
+// var logger = require('morgan');
+// var cookieParser = require('cookie-parser');
+// var bodyParser = require('body-parser');
+// var http = require('http');
+// var index = require('./routes/index');
+// var users = require('./routes/users');
+// var posts = require('./routes/posts');
+// var api = require('./route.api');
+// var page = require('./route.page');
+// var expressLayouts = require('express-ejs-layouts');
+// var config = require('./config');
+// var auth = require('./middlewares/auth');
+// var connectMongodb = require('connect-mongo');
+// var session = require('express-session');
 
-var mongoStore = new connectMongodb(session);
-var app = express();
+import express from 'express';
+import path from 'path';
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import http from 'http';
+import expressLayouts from 'express-ejs-layouts';
+import connectMongodb from 'connect-mongo';
+import session from 'express-session';
+import api from './route.api';
+import page from './route.page';
+import config from './config';
+import * as auth from './middlewares/auth.js';
+
+// var mongoStore = new connectMongodb(session);
+// var app = express();
+
+// es6 code
+const mongoStore = new connectMongodb(session);
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -86,7 +105,8 @@ app.use(function(err, req, res, next) {
 });
 
 
-var server = http.createServer(app);
+// var server = http.createServer(app);
+const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -94,4 +114,5 @@ var server = http.createServer(app);
 
 server.listen(3000);
 
-module.exports = app;
+// module.exports = app;
+export default app;
