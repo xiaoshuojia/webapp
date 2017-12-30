@@ -58,14 +58,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/posts', posts);
 // 路由归类
 // 使用session
-app.use(
-  session({
-    secret: config.sessionSecret,
-    store:  new mongoStore({url: config.mongodbUrl}),
-    resave: true,
-    saveUninitialized: true
-  })
-);
+// app.use(
+//   session({
+//     secret: config.sessionSecret,
+//     store:  new mongoStore({url: config.mongodbUrl}),
+//     resave: true,
+//     saveUninitialized: true
+//   })
+// );
+// 使用了JWT所以不用session了
+
 app.use(auth.authUser);
 app.use('/', page)
 .use('/api/v1', api); // use the version

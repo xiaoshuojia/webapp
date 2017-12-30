@@ -63,38 +63,62 @@ export const authUser = (req, res, next) => {
 
   res.locals.currentUser = null;
 
-  if(req.session && req.session.user){
-    const user = req.session.user;
-    res.locals.currentUser = user;
-    next();
-  }else {
-    const authToken = req.signedCookies[config.cookieName] || '';
-    if (authToken){
-      UserModel.findOne({ _id: authToken }, (err, user) => {
-        if (err || !user){ //没有用户 或出错
-
-          next();   // 为何这里不next(err)，我觉得可能是游客也能登录
-        }
-        else{
-          // 通过mongodb查找到的user对象，不能直接往里面动态的插入属性
-          // 比如：user.a = 1; 无效
-          // 一定要先下面一下。明白了吗？
-          //  我的教程也有点问题，我要改一下
-          //  哦啦
-          user = user.toObject();
-
-          user.isAdmin = user.name === config.admin;  // 精简代码
-          req.session.user = user;  // 为什么给req？为了保存信息，用来判断是不是已有的用户
-
-          res.locals.currentUser = user;
-          next();
-        }
-      });
+  // use jwt tocken
+  const tocken = req.headers['x-access-tocken'] || req.signedCookies[config.cookieName] || '';
+  console.log('req.signedCookies[config.cookieName]: ' + req.signedCookies[config.cookieName]);
+  if (tocken) {
+    try{
+      console.log('************************************************** in try');
+      const decoded = jwt.decode(tocken, config.jwtSecret);
+      console.log('*************************************** decode the tocken');
+      console.log('decoded: ' + decoded);
+      if (decoded.exp <= Date.now()){
+        res.end('Access tocken has expired', 400);
+        return;
+      }
+      req.user = res.locals.currentUser = decoded;
+      return next()
     }
-    else {
-      next();
+    catch(err){
+      return next();
     }
   }
+  else {
+    next();
+  }
+
+  // if(req.session && req.session.user){
+  //   const user = req.session.user;
+  //   res.locals.currentUser = user;
+  //   next();
+  // }else {
+  //   const authToken = req.signedCookies[config.cookieName] || '';
+  //   if (authToken){
+  //     UserModel.findOne({ _id: authToken }, (err, user) => {
+  //       if (err || !user){ //没有用户 或出错
+  //
+  //         next();   // 为何这里不next(err)，我觉得可能是游客也能登录
+  //       }
+  //       else{
+  //         // 通过mongodb查找到的user对象，不能直接往里面动态的插入属性
+  //         // 比如：user.a = 1; 无效
+  //         // 一定要先下面一下。明白了吗？
+  //         //  我的教程也有点问题，我要改一下
+  //         //  哦啦
+  //         user = user.toObject();
+  //
+  //         user.isAdmin = user.name === config.admin;  // 精简代码
+  //         req.session.user = user;  // 为什么给req？为了保存信息，用来判断是不是已有的用户
+  //
+  //         res.locals.currentUser = user;
+  //         next();
+  //       }
+  //     });
+  //   }
+  //   else {
+  //     next();
+  //   }
+  // }
 }
 
 // function adminRequired(req, res, next){
@@ -121,16 +145,25 @@ export const authUser = (req, res, next) => {
 
 //es6 code
 
+export const userRequired = (req, res, next) => {
+  if (!req.user){
+    let err = new Error('需要登录');
+    err.status = 403;
+    next(err);
+    return;
+  }
+}
 // function adminRequired(req, res, next){
 export const adminRequired = (req, res, next) => {
-
-  if (!req.session || !req.session.user){
+  console.log('req.user： ' + req.user);
+  // if (!req.session || !req.session.user){
+  if (!req.user){
     let err = new Error('需要登录');    // let是做什么？
     err.status = 403;                 // 403?
     next(err);
     return;
   }
-  if (!req.session.user.isAdmin){
+  if (!req.user.isAdmin){
     let err = new Error('需要管理员权限');
     err.status = 403;
     next(err);

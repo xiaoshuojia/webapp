@@ -6,6 +6,8 @@
 // var config = require('./config');
 import express from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jwt-simple';
+import moment from 'moment';
 import PostModel from './models/post.js';
 import UserModel from './models/user.js';
 import config from './config.js';
@@ -91,9 +93,10 @@ router.get('/posts/:id', function(req, res, next){
 
 // post edit ariticle
 router.patch('/posts', function(req, res, next){
-  var id = req.body.id;
-  var title = req.body.title;
-  var content = req.body.content;
+  // var id = req.body.id;
+  // var title = req.body.title;
+  // var content = req.body.content;
+  const {id, title, content} = req.body;
 
   PostModel.findOneAndUpdate({_id: id}, {title, content}, function(err){
     if (err){
@@ -152,19 +155,35 @@ router.post('/signin', function(req, res, next){
         return next(new Error('密码不对'));
       }
 
-      const authToken = user._id;
+      // const authToken = user._id;
+      // create the jwt tocken
+      const jwtTocken = jwt.encode(
+        {
+        _id:  user._id,
+        name: user.name,
+        isAdmin: user.name === config.admin ? true : false,
+        exp: moment().add(30, 'days').valueOf()
+      },
+      config.jwtSecret
+      );
+      console.log('exp', moment().add(30, 'days').valueOf());
+      console.log('jwtSecret: ' + jwtTocken);
+      const tocken = jwt.decode(jwtTocken, config.jwtSecret);
+      console.log('tocken.exp: ' + tocken.exp);
       const opts = {
         path: '/',
         // maxAge: 1000 * 60 * 60 * 24 * 30, //cookie 有效期30天
         // maxAge: -1,     // 只有浏览器打开的这段时间有效，关闭之后无效
-        maxAge: 1000 * 60 * 60 * 24 * 30, // 使用1分钟的有效时长
+        // maxAge: 1000 * 60 * 60 * 24 * 30, // 使用1分钟的有效时长
+        maxAge: moment().add('day', 30).valueOf(),
         signed: true,
         httpOnly: true
 
       };
-
-      res.cookie(config.cookieName, authToken, opts);
-      res.end();
+      req.user = res.locals.currentUser = user;
+      res.cookie(config.cookieName, jwtTocken, opts);
+      // res.end();
+      res.json({ jwtTocken });
     }
   });
 });
