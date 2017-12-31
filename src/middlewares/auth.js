@@ -5,6 +5,7 @@
 // es6 code
 import config from '../config.js';
 import UserModel from '../models/user';
+import jwt from 'jwt-simple';
 
 // function authUser(req, res, next){
 //
@@ -63,17 +64,16 @@ export const authUser = (req, res, next) => {
 
   res.locals.currentUser = null;
 
-  // use jwt tocken
-  const tocken = req.headers['x-access-tocken'] || req.signedCookies[config.cookieName] || '';
-  console.log('req.signedCookies[config.cookieName]: ' + req.signedCookies[config.cookieName]);
-  if (tocken) {
+  // use jwt token
+  const token = req.headers['x-access-token'] || req.signedCookies[config.cookieName] || '';
+
+  if (token) {
     try{
-      console.log('************************************************** in try');
-      const decoded = jwt.decode(tocken, config.jwtSecret);
-      console.log('*************************************** decode the tocken');
-      console.log('decoded: ' + decoded);
+
+      const decoded = jwt.decode(token, config.jwtSecret);
+
       if (decoded.exp <= Date.now()){
-        res.end('Access tocken has expired', 400);
+        res.end('Access token has expired', 400);
         return;
       }
       req.user = res.locals.currentUser = decoded;

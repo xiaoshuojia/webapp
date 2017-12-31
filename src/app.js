@@ -25,8 +25,8 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import http from 'http';
 import expressLayouts from 'express-ejs-layouts';
-import connectMongodb from 'connect-mongo';
-import session from 'express-session';
+// import connectMongodb from 'connect-mongo';
+// import session from 'express-session';
 import api from './route.api';
 import page from './route.page';
 import config from './config';
@@ -36,7 +36,7 @@ import * as auth from './middlewares/auth.js';
 // var app = express();
 
 // es6 code
-const mongoStore = new connectMongodb(session);
+// const mongoStore = new connectMongodb(session);
 const app = express();
 
 // view engine setup

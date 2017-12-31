@@ -156,8 +156,8 @@ router.post('/signin', function(req, res, next){
       }
 
       // const authToken = user._id;
-      // create the jwt tocken
-      const jwtTocken = jwt.encode(
+      // create the jwt token
+      const jwttoken = jwt.encode(
         {
         _id:  user._id,
         name: user.name,
@@ -166,10 +166,10 @@ router.post('/signin', function(req, res, next){
       },
       config.jwtSecret
       );
-      console.log('exp', moment().add(30, 'days').valueOf());
-      console.log('jwtSecret: ' + jwtTocken);
-      const tocken = jwt.decode(jwtTocken, config.jwtSecret);
-      console.log('tocken.exp: ' + tocken.exp);
+      // console.log('exp', moment().add(30, 'days').valueOf());
+      // console.log('jwtSecret: ' + jwttoken);
+      const token = jwt.decode(jwttoken, config.jwtSecret);
+      // console.log('token.exp: ' + token.exp);
       const opts = {
         path: '/',
         // maxAge: 1000 * 60 * 60 * 24 * 30, //cookie 有效期30天
@@ -181,9 +181,9 @@ router.post('/signin', function(req, res, next){
 
       };
       req.user = res.locals.currentUser = user;
-      res.cookie(config.cookieName, jwtTocken, opts);
+      res.cookie(config.cookieName, jwttoken, opts);
       // res.end();
-      res.json({ jwtTocken });
+      res.json({ jwttoken });
     }
   });
 });
