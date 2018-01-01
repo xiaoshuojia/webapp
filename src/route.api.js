@@ -11,6 +11,8 @@ import moment from 'moment';
 import PostModel from './models/post.js';
 import UserModel from './models/user.js';
 import config from './config.js';
+import * as post from './controllers/post.js';
+import * as auth from './middlewares/auth.js';
 
 const router = express.Router();
 
@@ -24,89 +26,16 @@ router.get('/posts/list', function(req, res, next) {
   res.json({PostsList: ['文章1', '文章2', '文章3']});
 });
 
-router.post('/posts', function(req, res, next){
-  console.log("post create information");
-  console.log('title:' + req.body.title);
-  console.log('content: ' + req.body.content);
-
-  // var title = req.body.title;
-  // var content = req.body.content;
-  // es6 code
-  const {title, content} = req.body;
-
-  if (title === '' || content === '')
-  {
-    console.log('标题或者内容不同为空');
-    // return next('标题或者内容不同为空');
-    // 返回一个错误提示
-    res.send({success: false, err: '标题或者内容不同为空'});
-  }
-  // save the title and content
-  const post = new PostModel();
-  post.title = title;
-  post.content = content;
-  post.authorId = res.locals.currentUser._id;
-  post.save(function(err, doc){
-    if (err){
-      next(err);
-      return;
-    }
-    res.json({post: doc});  // 返回新建的文章数据
-  });
-});
+router.post('/posts', auth.adminRequired, post.create);
 
 // get posts
-router.get('/posts', function(req, res, next){
-  // Get posts from MongoDb
-  console.log('Get posts from MongoDb');
-  PostModel.find({}, {}, function(err, posts){
-    console.log('find the posts');
-    if (err){
-      // res.json({success: false});
-      console.log('get posts page error ');
-      next(err);
-      return;
-    }
-    else {
-      console.log('posts:' + posts);
-      res.json({success: true, PostsList: posts});
-    }
-  });
-});
+router.get('/posts', post.more);
 
 // get on specific article
-router.get('/posts/:id', function(req, res, next){
-  // var id = req.query.id;
-  const id = req.params.id;
-  console.log('post/:id = ', id);
-  PostModel.findOne({_id: id}, function(err, post){
-    if (err){
-      console.log('can not find the article');
-      // res.json({success: false});
-      next(err);
-      return;
-    };
-    console.log('find the article');
-    res.json({success: true, post});
-  });
-});
+router.get('/posts/:id', post.one);
 
 // post edit ariticle
-router.patch('/posts', function(req, res, next){
-  // var id = req.body.id;
-  // var title = req.body.title;
-  // var content = req.body.content;
-  const {id, title, content} = req.body;
-
-  PostModel.findOneAndUpdate({_id: id}, {title, content}, function(err){
-    if (err){
-      // res.json({success: false});
-      next(err);
-      return ;
-    }
-    res.json({success: true});
-  });
-});
+router.patch('/posts',post.edit);
 
 
 // POST signup user
@@ -145,6 +74,7 @@ router.post('/signin', function(req, res, next){
   const {name, pass} = req.body;
 
   UserModel.findOne({name}, function(err, user){
+    console.log('**********************************************************');
     if (err || !user){
       return next(new Error('找不到用户'));
 

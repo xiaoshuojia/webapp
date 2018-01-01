@@ -27,8 +27,8 @@ import http from 'http';
 import expressLayouts from 'express-ejs-layouts';
 // import connectMongodb from 'connect-mongo';
 // import session from 'express-session';
-import api from './route.api';
-import page from './route.page';
+import api from './route.api.js';
+import page from './route.page.js';
 import config from './config';
 import * as auth from './middlewares/auth.js';
 
