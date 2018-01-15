@@ -4,7 +4,7 @@
 
 // es6 code
 import config from '../config.js';
-import UserModel from '../models/user';
+import UserModel from '../models/user.js';
 import jwt from 'jwt-simple';
 
 // function authUser(req, res, next){

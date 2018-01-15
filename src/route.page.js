@@ -40,27 +40,16 @@ router.get('/posts/create', auth.adminRequired, page.create);
 router.get('/posts/show', page.show);
 
 // get edit page
-router.get('/posts/edit',  function(req, res, next){
-  const id = req.query.id;
-
-  res.render('edit', { id });
-
-});
+router.get('/posts/edit',  page.edit);
 
 // GET signup page
-router.get('/signup', function(req, res, next){
-  res.render('signup');
-});
+router.get('/signup', page.signup);
 
 // GET signin  page
-router.get('/signin', function(req, res, next){
-  console.log('page signin');
-  res.render('signin');
-});
+router.get('/signin', page.signin);
 
 // GET signout page
-router.get('/signout', function(req, res, next){
-  console.log('signout page ');
+router.get('/signout', page.signout
   // res.locals.currentUser = null;
 
   // var authToken = req.signedCookies[config.cookieName] || '';;
@@ -75,11 +64,7 @@ router.get('/signout', function(req, res, next){
   // res.cookie(config.cookieName, authToken, opts);
   // res.render('signout');
   // req.session.user = null;  // 因为使用了jwt来确定登录情况，所以要去掉req中的session的信息
-  req.user = null;
-  res.clearCookie(config.cookieName, {path: '/'});
-  console.log('Clear the cookie: ' + config.cookieName);
-  res.redirect('/');
-});
+  );
 
 
 // module.exports = router;

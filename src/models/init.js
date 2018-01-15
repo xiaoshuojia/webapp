@@ -7,6 +7,15 @@
 import mongoose from 'mongoose';
 import config from '../config.js';
 
-mongoose.connect(config.mongodbUrl, {
+const mongo = mongoose.connect(config.mongodbUrl, {
   useMongoClient: true
+});
+
+mongo
+.then(db => {
+  console.log('MongoDB has been connected !');
+})
+.catch(err => {
+  console.log('connecting error ');
+  throw(err);
 });

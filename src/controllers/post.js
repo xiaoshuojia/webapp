@@ -1,4 +1,9 @@
 import PostModel from '../models/post.js';
+import UserModel from '../models/user.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jwt-simple';
+import config from '../config.js';
+import moment from 'moment';
 
 export const create = (req, res, next) => {
   // es6 code

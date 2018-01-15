@@ -1,5 +1,6 @@
-import PostModel from '../models/post.js'
+import PostModel from '../models/post.js';
 import MarkdownIt from 'markdown-it';
+import config from '../config.js';
 
 const md = new MarkdownIt();
 export const index = (req, res, next) => {
@@ -37,4 +38,28 @@ export const show = (req, res, next) => {
     article.content = md.render(article.content);
     res.render('show', {article});
   });
+}
+
+export const edit = (req, res, next ) => {
+
+    const id = req.query.id;
+
+    res.render('edit', { id });
+}
+
+export const signup = (req, res, next) => {
+  res.render('signup');
+}
+
+
+export const signin = (req, res, next) => {
+    res.render('signin');
+}
+
+
+export const signout = (req, res, next) => {
+  req.user = null;
+  res.clearCookie(config.cookieName, {path: '/'});
+  console.log('Clear the cookie: ' + config.cookieName);
+  res.redirect('/');
 }

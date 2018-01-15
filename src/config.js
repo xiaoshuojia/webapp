@@ -10,8 +10,8 @@
 // 导出一个对象，直接export default
 export default {
   cookieName: 'your_cookie_name',
-  jwtSecret: 'your_jwt_secret', 
-  mongodbUrl: 'mongodb://localhost:32772/webapp',
+  jwtSecret: 'your_jwt_secret',
+  mongodbUrl: 'mongodb://localhost:27017/webapp',
   admin: 'xujie',
   sessionSecret: 'your_session_secret'
 }
