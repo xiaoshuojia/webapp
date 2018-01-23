@@ -13,5 +13,15 @@ export default {
   jwtSecret: 'your_jwt_secret',
   mongodbUrl: 'mongodb://localhost:27017/webapp',
   admin: 'xujie',
-  sessionSecret: 'your_session_secret'
+  sessionSecret: 'your_session_secret',
+  email: {
+    host: 'smtp.qq.com',
+    port: 465,
+    auth: {
+      user: 'xx@qq.com',
+      pass: 'your_password'
+    }
+  },
+  name: '我的社区',
+  url: 'localhost:' + '3000'
 }

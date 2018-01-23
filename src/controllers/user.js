@@ -3,17 +3,21 @@ import bcrypt from 'bcrypt';
 import jwt from 'jwt-simple';
 import config from '../config.js';
 import moment from 'moment';
-
+import {sendActiveMail} from '../common/mail.js';
+import utility from 'utility';
 
 export const signup = (req, res, next) => {
-  const {name, pass, rePass} = req.body;
+  const {name, email, pass, rePass} = req.body;
 
   if (pass !== rePass){
     return errorHandle(new Error("两次密码不一致"), next);
   }
 
   const user = new UserModel(); // const 这里能行吗，因为const我理解就是它代表的变量不能修改，那么后面的赋值是怎么回事，算是修改变量吗
+  // 实际const在js中，如果是对象，那么其实管不了对象的属性，就是说对象的属性仍然可以改变。
+
   user.name = name ;
+  user.email = email;
   user.pass = bcrypt.hashSync(pass, 10);  // 网络上传递的是明文啊，会不会有影响
   console.log('user:' + user);
   user.save(function(err){
@@ -21,7 +25,17 @@ export const signup = (req, res, next) => {
       next(err);
     }
     else {
-      res.end();
+      // 通过邮箱激活账户
+      sendActiveMail(
+        email,
+        utility.md5(user.email + user.pass),
+        name
+      );
+
+      res.json({
+        message: `欢迎加入${config.name}！我们已经给您的注册邮箱发送一封邮件，请点击这里激活。`
+      });
+      console.log('Save the email into mongodb');
     }
   });
 }
