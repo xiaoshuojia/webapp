@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./app.js",
+    "start": "node ./dist/app.js",
     "auto-start": "./node_modules/.bin/node-supervisor node ./app.js",
     "dev": "nodemon ./src/app.js --exec \"node -r dotenv/config -r babel-register\" ",
     "clean": "rimraf dist",
