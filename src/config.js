@@ -12,7 +12,7 @@ export default {
   cookieName: 'your_cookie_name',
   jwtSecret: 'your_jwt_secret',
   mongodbUrl: 'mongodb://localhost:27017/webapp',
-  admin: 'xujie',
+  admin: 'admin',
   sessionSecret: 'your_session_secret',
   email: {
     host: 'smtp.qq.com',
