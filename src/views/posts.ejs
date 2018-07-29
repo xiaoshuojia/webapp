@@ -11,19 +11,11 @@
   </ul>
 </div>
 <% } %>
-<!-- 文章显示和内容其实两者不相关，他们是不同的处理方式，一个是css，一个是关于内容 -->
   <div class="container">
     <div class="col-md-8 col-md-offset-2">
       <div id="app">
 
           <h1><%= title %></h1>
-
-          <!-- <p v-for="item in PostsList">{{ item.title }}</p> -->
-
-          <!-- 文章列表跳转过去，也就是每个文章列表都是超链接，链接到文章详情的页面 -->
-          <!-- <div v-for="item in PostsList">
-            <a v-bind:href="item.url" >{{ item.title }}</a>
-          </div> -->
 
           <!-- 使用list-group组件来显示文章 -->
           <ul class="list-group" v-for="item in PostsList">

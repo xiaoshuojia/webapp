@@ -1,7 +1,3 @@
-<!-- 添加编辑文章的按钮，使用Split button -->
-<!-- <% if (currentUser){  %>
-  <p>currentUser: <%- currentUser %></p>
-  <% } %> -->
 
 <% if ((currentUser) && (article.authorId) && (currentUser && currentUser._id.toString() === article.authorId.toString())) { %>
 <div class="btn-group pull-right">
@@ -12,18 +8,11 @@
   </button>
   <ul class="dropdown-menu">
 
-    <!-- <li><a href="/posts/create">编辑</a></li> -->
     <li><a href="/posts/edit?id=<%= article._id %>">编辑</a></li>
 
   </ul>
 </div>
 <% } %>
 <h1><%= article.title %></h1>
-<!-- <p><%= article.content %></p> -->
-<!-- 使用markdown语言显示 -->
+
 <p><%- article.content %></p>
-<!-- <p>article.content: <%- article.content %></p> -->
-<!-- <p>article.title: <%= article.title%></p> -->
-<!-- 要小心，不用的代码要彻底删除，否则浏览器会解释这个注释中的代码 -->
-<!-- <p>authorId: <%= article.authorId %></p> -->
-<!-- <p>_id: <%= currentUser %> </p> -->

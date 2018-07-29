@@ -13,9 +13,7 @@ export const signup = (req, res, next) => {
     return errorHandle(new Error("两次密码不一致"), next);
   }
 
-  const user = new UserModel(); // const 这里能行吗，因为const我理解就是它代表的变量不能修改，那么后面的赋值是怎么回事，算是修改变量吗
-  // 实际const在js中，如果是对象，那么其实管不了对象的属性，就是说对象的属性仍然可以改变。
-
+  const user = new UserModel();
   user.name = name ;
   user.email = email;
   user.pass = bcrypt.hashSync(pass, 10);  // 网络上传递的是明文啊，会不会有影响

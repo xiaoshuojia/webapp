@@ -10,7 +10,7 @@
     <button class="btn btn-default" name="button" v-on:click="submit">提交</button>
   </div>
 </div>
-<!-- 将文章内容提交到服务器 -->
+
 <script>
 var vm = new Vue({
   el: "#app",
@@ -25,7 +25,6 @@ var vm = new Vue({
         content: vm.content
       })
       .then(function(response){
-        // alert(JSON.stringify(response.data));
         return response.data;
       })
       .then(function(data){

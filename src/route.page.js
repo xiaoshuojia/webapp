@@ -1,10 +1,3 @@
-// var express = require('express');
-// var router = express.Router();
-// var PostModel = require('./models/post');
-// var marked = require('marked');
-// var MarkdownIt = require('markdown-it');
-// var config = require('./config');
-// var auth = require('./middlewares/auth');
 
 // es6 code
 import express from 'express';
@@ -49,22 +42,7 @@ router.get('/signup', page.signup);
 router.get('/signin', page.signin);
 
 // GET signout page
-router.get('/signout', page.signout
-  // res.locals.currentUser = null;
-
-  // var authToken = req.signedCookies[config.cookieName] || '';;
-  // var opts = {
-  //   path: '/',
-  //   // maxAge: 1000 * 60 * 60 * 24 * 30, //cookie 有效期30天
-  //   // maxAge: -1,     // 只有浏览器打开的这段时间有效，关闭之后无效
-  //   maxAge: 0, // 不记录cookie
-  //   signed: true,
-  //   httpOnly: true
-  // };
-  // res.cookie(config.cookieName, authToken, opts);
-  // res.render('signout');
-  // req.session.user = null;  // 因为使用了jwt来确定登录情况，所以要去掉req中的session的信息
-  );
+router.get('/signout', page.signout);
 
 
 // module.exports = router;

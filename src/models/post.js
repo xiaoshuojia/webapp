@@ -1,5 +1,4 @@
 // create a new table for saving the article
-// var mongoose = require('mongoose');
 
 //es6 code
 import mongoose from 'mongoose';
