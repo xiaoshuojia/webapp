@@ -44,6 +44,8 @@ router.get('/signin', page.signin);
 // GET signout page
 router.get('/signout', page.signout);
 
+router.get('/categories', page.categories);
+
 
 // module.exports = router;
 export default router;

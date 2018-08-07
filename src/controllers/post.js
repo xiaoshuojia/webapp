@@ -1,5 +1,6 @@
 import PostModel from '../models/post.js';
 import UserModel from '../models/user.js';
+import CategoryModel from '../models/category.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jwt-simple';
 import config from '../config.js';
@@ -7,8 +8,8 @@ import moment from 'moment';
 
 export const create = (req, res, next) => {
   // es6 code
-  const {title, content} = req.body;
-
+  const {title, content, categoryId} = req.body;
+  console.log(`Create post, title: ${title}, content: ${content}, categoryId: ${categoryId}`);
   if (title === '' || content === '')
   {
     console.log('标题或者内容不同为空');

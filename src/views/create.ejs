@@ -9,6 +9,11 @@
   <div class="form-group">
     <button class="btn btn-default" name="button" v-on:click="submit">提交</button>
   </div>
+  <div class="">
+    <select class="" name="" id="category">
+      <option value="" v-for="item in CategoriesList" :tid="item.id">{{ item.name }}</option>
+    </select>
+  </div>
 </div>
 
 <script>
@@ -16,13 +21,39 @@ var vm = new Vue({
   el: "#app",
   data:{
     title: '',
-    content: ''
+    content: '',
+    CategoriesList: []
   },
   methods:{
+    fetchData() {
+      axios.get('/api/v1/categories')
+      .then(function(response){
+        console.log('response:' + response);
+          vm.CategoriesList = response.data.CategoriesList;
+
+          vm.CategoriesList.forEach(function(element){
+            element.url = element._id;
+          });
+          console.log(vm.CategoriesList);
+      })
+      .catch(function(err){
+        alert(err.response.data.error);
+      });
+    },
     submit(){
+      // var myselect = document.getElementsByTagName('select')[0];
+      // var index = myselect.selectedIndex;
+      // var tid1 = myselect.options[index].getAttribute('tid');
+      // var tid2 = myselect.options[index].attributes['tid'];
+      // var tid3 = myselect.options[index].text;
+
+      // var tid4 = $("#category").find("option:selected").attr("tid");
+      var testid = $("#category").find("option:selected").attr("tid");
+      // console.log(`tid1: ${tid1}, tid2: ${tid2}, tid3: ${tid3}, tid4: ${tid4}, testid: ${testid}`);
       axios.post('/api/v1/posts', {
         title: vm.title,
-        content: vm.content
+        content: vm.content,
+        categoryId: testid
       })
       .then(function(response){
         return response.data;
@@ -37,4 +68,5 @@ var vm = new Vue({
   }
 }
 );
+vm.fetchData();
 </script>

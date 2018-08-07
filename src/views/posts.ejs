@@ -11,28 +11,33 @@
   </ul>
 </div>
 <% } %>
-  <div class="container">
-    <div class="col-md-8 col-md-offset-2">
-      <div id="app">
-
-          <h1><%= title %></h1>
-
-          <!-- 使用list-group组件来显示文章 -->
-          <ul class="list-group" v-for="item in PostsList">
-            <li class="list-group-item">
-              <a v-bind:href="item.url">{{ item.title }}</a>
-            </li>
-          </ul>
-
-
-        </div>
-      </div>
+<div id="app">
+  <div class="col-md-9">
+    <h1><%= title %></h1>
+    <!-- 使用list-group组件来显示文章 -->
+    <ul class="list-group" v-for="item in PostsList">
+      <li class="list-group-item">
+        <a v-bind:href="item.url">{{ item.title }}</a>
+      </li>
+    </ul>
   </div>
+  <div class="col-md-3">
+    分类
+    <span>管理</span>
+    <ul class="list-group" v-for="item in CategoriesList">
+      <li class="list-group-item">
+        <a v-bind:href="item.url">{{ item.name }}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
 <script>
     var vm = new Vue({
         el: "#app",
         data: {
-            PostsList: []
+            PostsList: [],
+            CategoriesList: []
         },
         methods: {
             fetchData() {
@@ -48,6 +53,23 @@
                       element.url = '/posts/show?id=' + element._id;
                     });
                     console.log(vm.PostsList);
+                })
+                .catch(function(err){
+                  alert(err.response.data.error);
+                });
+
+                axios.get('/api/v1/categories')
+                .then(function(response){
+                  console.log('response:' + response);
+                    vm.CategoriesList = response.data.CategoriesList;
+                    // 给每个变量的设置url地址
+                    // vm.CategoriesList.forEach((element) => element.url = '/posts/show?id=' + element._id);
+
+                    // 箭头函数是将原来的额函数改为了箭头，其等价函数应该如下，亲测没毛病
+                    vm.CategoriesList.forEach(function(element){
+                      element.url = '/categories/show?id=' + element._id;
+                    });
+                    console.log(vm.CategoriesList);
                 })
                 .catch(function(err){
                   alert(err.response.data.error);

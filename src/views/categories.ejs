@@ -1,0 +1,120 @@
+<!-- 添加新建文章的按钮，使用Split button -->
+<% if (currentUser) { %>
+  <div id="app">
+    <div class="col-md-8 col-md-offset-2">
+      分类
+      <ul class="list-group" v-for="item in CategoriesList">
+        <li class="list-group-item">
+          <template v-if="item.showType === 'show'">
+            <a v-bind:href="item.url">{{ item.name }}</a>
+          </template>
+          <template v-else>
+            <input type="text" name="" placeholder="{{ item.name }}" v-model="categoryName" value="">
+          </template>
+
+
+          <span>
+            <button type="button" name="button" @click="modify(item.tid, item.name)">修改</button>
+            <button type="button" name="button" v-on:click="remove(item.tid)">删除</button>
+          </span>
+        </li>
+
+      </ul>
+
+      <div class="row">
+          <div class="input-group">
+            <input type="text" class="form-control" v-model="categoryName" placeholder="New Category">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" v-on:click="submit">新建</button>
+            </span>
+          </div><!-- /input-group -->
+      </div><!-- /.row -->
+    </div>
+  </div>
+<% } %>
+
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+          showType: 'show',
+          categoryName: '',
+          CategoriesList: []
+        },
+        methods: {
+            fetchData() {
+
+                axios.get('/api/v1/categories')
+                .then(function(response){
+                  console.log('response:' + response);
+                    vm.CategoriesList = response.data.CategoriesList;
+                    // 给每个变量的设置url地址
+                    // vm.CategoriesList.forEach((element) => element.url = '/posts/show?id=' + element._id);
+
+                    // 箭头函数是将原来的额函数改为了箭头，其等价函数应该如下，亲测没毛病
+                    vm.CategoriesList.forEach(function(element){
+                      element.url = '/categories/show?id=' + element._id;
+                      element.tid = element._id;
+                      element.showType = 'show';
+                    });
+                    console.log(vm.CategoriesList);
+                })
+                .catch(function(err){
+                  alert(err.response.data.error);
+                });
+            },
+
+            submit() {
+              if(vm.categoryName === '') {
+                alert('分类名称不能为空');
+                return;
+              }
+              axios.post('/api/v1/categories', {
+                name: vm.categoryName,
+              })
+              .then(function(response){
+                return response.data;
+              })
+              .then(function(data){
+                window.location = '/categories';
+              })
+              .catch(function(err){
+                alert(err.response.data.error);
+              })
+            },
+            modify: function(id, name) {
+              console.log(`id: ${id}, name: ${name}`);
+              var category = prompt('Please input the new category', name);
+              if (category === name) {
+                return window.location = '/categories';
+              }
+              axios.patch('/api/v1/categories/' + id, { category })
+              .then(function(response) {
+                return response.data;
+              })
+              .then(function(data){
+                window.location = '/categories';
+              })
+              .catch(function(err) {
+                alert(err);
+              });
+            },
+            remove: function(tid) {
+              console.log(`delete the category id: ${tid}`);
+              axios.delete('/api/v1/categories/' + tid)
+              .then(function(response) {
+                return response.data;
+              })
+              .then(function(data) {
+                window.location = '/categories';
+              })
+              .catch(function(err) {
+                alert(err.response.data.error);
+              });
+            }
+
+        }
+    });
+    vm.fetchData();
+</script>

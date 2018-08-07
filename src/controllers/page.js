@@ -63,3 +63,8 @@ export const signout = (req, res, next) => {
   console.log('Clear the cookie: ' + config.cookieName);
   res.redirect('/');
 }
+
+export const categories = (req, res, next) => {
+  
+  res.render('categories');
+}

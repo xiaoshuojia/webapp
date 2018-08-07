@@ -8,13 +8,13 @@ import UserModel from './models/user.js';
 import config from './config.js';
 import * as post from './controllers/post.js';
 import * as user from './controllers/user.js';
+import * as category from './controllers/category.js';
 import * as auth from './middlewares/auth.js';
 
 const router = express.Router();
 
 /* GET posts list . */
 router.get('/posts/list', function(req, res, next) {
-
   res.json({PostsList: ['文章1', '文章2', '文章3']});
 });
 
@@ -29,6 +29,8 @@ router.get('/posts/:id', post.one);
 // post edit ariticle
 router.patch('/posts',post.edit);
 
+// get posts categories
+router.get('/categories', category.more);
 
 // POST signup user
 router.post('/signup', user.signup);
@@ -38,6 +40,15 @@ router.post('/signup', user.signup);
 router.post('/signin', user.signin);
 
 
+// post category
+router.post('/categories', category.create);
+
+// modify the category
+router.patch('/categories/:id', category.modify);
+
+
+// delete the category
+router.delete('/categories/:id', category.deletecategory);
 
 // module.exports = router;
 export default router;
