@@ -46,6 +46,8 @@ router.get('/signout', page.signout);
 
 router.get('/categories', page.categories);
 
+// Get the posts in the category
+router.get('/categories/show', page.categoryshow)
 
 // module.exports = router;
 export default router;

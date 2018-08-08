@@ -32,7 +32,7 @@ var vm = new Vue({
           vm.CategoriesList = response.data.CategoriesList;
 
           vm.CategoriesList.forEach(function(element){
-            element.url = element._id;
+            element.id = element._id;
           });
           console.log(vm.CategoriesList);
       })
@@ -48,12 +48,14 @@ var vm = new Vue({
       // var tid3 = myselect.options[index].text;
 
       // var tid4 = $("#category").find("option:selected").attr("tid");
-      var testid = $("#category").find("option:selected").attr("tid");
+      var el1 = $("#category");
+      var el2 = el1.find("option:selected");
+      var attr  = el2.attr("tid");
       // console.log(`tid1: ${tid1}, tid2: ${tid2}, tid3: ${tid3}, tid4: ${tid4}, testid: ${testid}`);
       axios.post('/api/v1/posts', {
         title: vm.title,
         content: vm.content,
-        categoryId: testid
+        categoryId: attr
       })
       .then(function(response){
         return response.data;

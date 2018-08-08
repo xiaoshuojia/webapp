@@ -10,7 +10,10 @@ const ObjectId = Schema.ObjectId;   // 这个ObjectId是个什么
 var PostSchema = new Schema({
   title: String,
   content: String,
-  authorId: ObjectId  // 作者ID
+  authorId: ObjectId,  // 作者ID
+  categoryId: ObjectId,
+  createDate: Number,
+  modifyDate: Number
 });
 
 var PostModel = mongoose.model('Post', PostSchema);

@@ -65,6 +65,21 @@ export const signout = (req, res, next) => {
 }
 
 export const categories = (req, res, next) => {
-  
+
   res.render('categories');
+}
+
+export  const categoryshow = (req, res, next) => {
+  const { id } = req.query;
+  PostModel.find({categoryId: id}, (err, postsList) => {
+    if (err){
+      next(err);
+      return;
+    }
+    for (var i = 0; i < postsList.length; i++) {
+      console.log(`postsList[${i}].title: ${postsList[i].title}`);
+    }
+
+    res.render('categoryshow', {postsList});
+  });
 }

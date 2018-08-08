@@ -1,0 +1,8 @@
+<div class="col-md-8 col-md-offset-2">
+  <ul class="list-group">
+    <% for (var i = 0; i < postsList.length; i++){ %>
+
+      <li class="list-group-item"><a href="/posts/show?id=<%= postsList[i]._id %>" ><%= postsList[i].title %></a> </li>
+      <% } %>
+  </ul>
+</div>

@@ -22,6 +22,9 @@ export const create = (req, res, next) => {
   post.title = title;
   post.content = content;
   post.authorId = res.locals.currentUser._id;
+  post.categoryId = categoryId;
+  post.modifyDate = post.createDate = Date.now();
+  console.log(`post.createData: ${post.createDate}, post.modifyDate: ${post.modifyDate}`);
   post.save((err, doc) => {
     if (err){
       next(err);
@@ -60,8 +63,8 @@ export const one = (req, res, next) => {
 export const edit = (req, res, next) => {
   console.log('new handle edit ');
   const {id, title, content} = req.body;
-
-  PostModel.findOneAndUpdate({_id: id}, {title, content}, (err) => {
+  var modifyDate = Date.now();
+  PostModel.findOneAndUpdate({_id: id}, {title: title, content: content, modifyDate: modifyDate}, (err) => {
     if (err){
       next(err);
       return ;
