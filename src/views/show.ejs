@@ -7,12 +7,36 @@
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <ul class="dropdown-menu">
-
     <li><a href="/posts/edit?id=<%= article._id %>">编辑</a></li>
-
+    <li><a v-on:click="remove('<%= article._id %>')">删除</a></li>
   </ul>
 </div>
 <% } %>
 <h1><%= article.title %></h1>
 
 <p><%- article.content %></p>
+<script type="text/javascript">
+  var vm = new Vue({
+     el: "#app",
+     data: {
+
+     },
+     methods: {
+       remove(id) {
+         axios.delete('/api/v1/posts/' + id)
+         .then(function(response) {
+           return response.data;
+           alert('Delete the aritcle');
+         })
+         .then(function(data) {
+           if (data.success) {
+             window.location = "/posts";
+           }
+         })
+         .catch(function(err) {
+           alert(err);
+         });
+       }
+     }
+   });
+ </script>

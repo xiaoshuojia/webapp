@@ -72,3 +72,14 @@ export const edit = (req, res, next) => {
     res.json({success: true});
   });
 }
+
+export const remove = (req, res, next) => {
+  var {id} = req.params;
+  console.log(`remove the article id: ${id}`);
+  PostModel.remove({_id: id}, function(err){
+    if(err) {
+        return next('delete the article failed!')
+    }
+    res.json({success: true});
+  })
+};

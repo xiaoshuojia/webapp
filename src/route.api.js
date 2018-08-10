@@ -29,6 +29,9 @@ router.get('/posts/:id', post.one);
 // post edit ariticle
 router.patch('/posts',post.edit);
 
+// delete the ariticle
+router.delete('/posts/:id', post.remove);
+
 // get posts categories
 router.get('/categories', category.more);
 
