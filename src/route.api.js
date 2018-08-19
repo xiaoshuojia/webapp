@@ -10,6 +10,7 @@ import * as post from './controllers/post.js';
 import * as user from './controllers/user.js';
 import * as category from './controllers/category.js';
 import * as auth from './middlewares/auth.js';
+import * as archive from './controllers/archive.js';
 
 const router = express.Router();
 
@@ -53,5 +54,7 @@ router.patch('/categories/:id', category.modify);
 // delete the category
 router.delete('/categories/:id', category.deletecategory);
 
+// get archive
+router.get('/archives', archive.more)
 // module.exports = router;
 export default router;

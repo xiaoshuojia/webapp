@@ -1,0 +1,39 @@
+<div id="app">
+  <div class="col-md-8 col-md-offset-2">
+    分类
+    <ul class="list-group" v-for="item in ArchivesList">
+      <li class="list-group-item">
+        <a v-bind:href="item.url">{{ item.name }}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+          ArchivesList: []
+        },
+        methods: {
+            fetchData() {
+                axios.get('/api/v1/archives')
+                .then(function(response){
+                  console.log('response:' + response);
+                    vm.ArchivesList = response.data.ArchivesList;
+
+                    vm.ArchivesList.forEach(function(element){
+                      element.url = '/archives/show?id=' + element._id;
+                      var date = new Date(element.time);
+                      element.name = date.getFullYear() + '-' + (date.getMonth() + 1);
+                    });
+                    console.log(vm.ArchivesList);
+                })
+                .catch(function(err){
+                  alert(err.message);
+                });
+            },
+        }
+    });
+    vm.fetchData();
+</script>

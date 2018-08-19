@@ -22,11 +22,20 @@
     </ul>
   </div>
   <div class="col-md-3">
-    分类
+    <strong>分类</strong>
     <span><a href="/categories">管理</a> </span>
     <ul class="list-group" v-for="item in CategoriesList">
       <li class="list-group-item">
         <a v-bind:href="item.url">{{ item.name }}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-3">
+    <span ><strong>归档</strong></span>
+    <span><a href="/archives">管理</a> </span>
+    <ul class="list-group" v-for="item in ArchivesList">
+      <li class="list-group-item">
+        <a :href="item.url">{{ item.name }}</a>
       </li>
     </ul>
   </div>
@@ -37,7 +46,9 @@
         el: "#app",
         data: {
             PostsList: [],
-            CategoriesList: []
+            CategoriesList: [],
+            date: [],
+            ArchivesList: []
         },
         methods: {
             fetchData() {
@@ -45,10 +56,6 @@
                 .then(function(response){
                   console.log('response:' + response);
                     vm.PostsList = response.data.PostsList;
-                    // 给每个变量的设置url地址
-                    // vm.PostsList.forEach((element) => element.url = '/posts/show?id=' + element._id);
-
-                    // 箭头函数是将原来的额函数改为了箭头，其等价函数应该如下，亲测没毛病
                     vm.PostsList.forEach(function(element){
                       element.url = '/posts/show?id=' + element._id;
                     });
@@ -62,10 +69,7 @@
                 .then(function(response){
                   console.log('response:' + response);
                     vm.CategoriesList = response.data.CategoriesList;
-                    // 给每个变量的设置url地址
-                    // vm.CategoriesList.forEach((element) => element.url = '/posts/show?id=' + element._id);
 
-                    // 箭头函数是将原来的额函数改为了箭头，其等价函数应该如下，亲测没毛病
                     vm.CategoriesList.forEach(function(element){
                       element.url = '/categories/show?id=' + element._id;
                     });
@@ -73,6 +77,21 @@
                 })
                 .catch(function(err){
                   alert(err.response.data.error);
+                });
+                // 获取归档分类
+                axios.get('/api/v1/archives')
+                .then(function(response){
+                    vm.ArchivesList = response.data.ArchivesList;
+                    vm.ArchivesList.forEach(function(element){
+                      element.url = '/archives/show?id=' + element._id;
+                      var date = new Date(element.time);
+
+                      element.name = date.getFullYear() + '-' + (date.getMonth() + 1);
+                      console.log(`url: ${element.url}, name: ${element.name}`);
+                    });
+                })
+                .catch(function(err){
+                  alert(err.message);
                 });
             }
         }

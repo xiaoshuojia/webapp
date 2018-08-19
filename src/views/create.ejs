@@ -58,6 +58,7 @@ var vm = new Vue({
         categoryId: attr
       })
       .then(function(response){
+        console.log(`data: ${response.data}`);
         return response.data;
       })
       .then(function(data){

@@ -1,6 +1,8 @@
 import PostModel from '../models/post.js';
 import UserModel from '../models/user.js';
 import CategoryModel from '../models/category.js';
+import ArchiveModel from '../models/archive.js';
+import TimeFormat from '../util/timeformat';
 import bcrypt from 'bcrypt';
 import jwt from 'jwt-simple';
 import config from '../config.js';
@@ -25,12 +27,32 @@ export const create = (req, res, next) => {
   post.categoryId = categoryId;
   post.modifyDate = post.createDate = Date.now();
   console.log(`post.createData: ${post.createDate}, post.modifyDate: ${post.modifyDate}`);
+  var doc2 = {};
   post.save((err, doc) => {
     if (err){
       next(err);
       return;
     }
-    res.json({post: doc});  // 返回新建的文章数据
+    var date = TimeFormat.getCurrentAchiveTime();  // 获取归档时间
+    ArchiveModel.findOne({time: date}, function(err, arc) {
+      if (err) {
+        return next(err);
+      }
+      if (arc) {  // 查询到归档信息
+        console.log(`create new article doc.time: ${doc.time}`);
+        res.json({post: doc}); // 必须放在这里，放在回调函数外面，不能及时获取文章对象数据
+      }
+      else {  // 没有查到，新增
+        var archive = new ArchiveModel();
+        archive.time = date;
+        archive.save((err, arc) => {
+          if(err) {
+            return next(err);
+          }
+          next();
+        });
+      }
+    });
   });
 }
 

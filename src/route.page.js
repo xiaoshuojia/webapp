@@ -47,7 +47,13 @@ router.get('/signout', page.signout);
 router.get('/categories', page.categories);
 
 // Get the posts in the category
-router.get('/categories/show', page.categoryshow)
+router.get('/categories/show', page.categoryshow);
+
+// Get the posts in archive
+router.get('/archives/show', page.archiveshow);
+
+// Get the page of archives
+router.get('/archives', page.archives)
 
 // module.exports = router;
 export default router;

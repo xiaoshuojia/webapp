@@ -1,4 +1,6 @@
 import PostModel from '../models/post.js';
+import ArchiveModel from '../models/archive';
+import * as TimeFormat from '../util/timeformat';
 import MarkdownIt from 'markdown-it';
 import config from '../config.js';
 
@@ -21,11 +23,7 @@ export const create = (req, res, next) => {
 export const show = (req, res, next) => {
   console.log("new show one post detail handle");
   const id = req.query.id;
-  // 这里的function第一个参数是错误，第二个就是我们查询得到的结果。
-  // PostModel.findOne({_id: id}, function(err, article){
-  //   res.render('show', {article});
-  // });
-  // 测试箭头函数
+  console.log(`id: ${id}`);
   PostModel.findOne({_id: id}, (err, article) => {
     // markdown 使用
     // article.content = marked(article.content);
@@ -34,6 +32,8 @@ export const show = (req, res, next) => {
       next(err);
       return;
     }
+    console.log(`to object: ${article.toObject()}`);
+    console.log(`article.tile: ${article.title}, artitle.content: ${article.content}, article.createDate: ${article.createDate}`);
     // 使用markdown-it渲染
     article.content = md.render(article.content);
     res.render('show', {article});
@@ -82,4 +82,34 @@ export  const categoryshow = (req, res, next) => {
 
     res.render('categoryshow', {postsList});
   });
+}
+
+export const archives = (req, res, next) => {
+  res.render('archives');
+}
+
+export  const archiveshow = (req, res, next) => {
+  const { id } = req.query;
+  console.log(`archive id: ${id}`);
+  ArchiveModel.findOne({_id: id}, (err, doc) => {
+    if (err) {
+      return next(err);
+    }
+    if (doc) {
+
+    }
+    var testT1 = TimeFormat.getCurrentAchiveTime();
+    var date = new Date(doc.time);
+    var currentAchiveTime = doc.time;
+    var nextArchiveTime = TimeFormat.getNextArchiveTime(currentAchiveTime);
+    var nextDate = new Date(nextArchiveTime)
+    // find the posts
+    PostModel.find({createDate: {$gte: currentAchiveTime, $lt: nextArchiveTime, $exists: true}}, (err, posts) => {
+      if(err) {
+        return next(err);
+      }
+      res.render('archiveshow', {postsList: posts})
+    })
+  })
+
 }
