@@ -70,6 +70,24 @@ export const more = (req, res, next) => {
   });
 }
 
+// Get the posts aoubt the pagecount
+export const moreatpage = (req, res, next) => {
+  // Get posts from MongoDb
+  console.log('get posts for page');
+  var {id} = req.params;
+  console.log(`id: ${id}`);
+  id--;
+  PostModel.find({}, {}, {skip: id * 30, limit: 30},(err, posts) => {
+    if (err){
+      next(err);
+      return;
+    }
+    else {
+      res.json({success: true, PostsList: posts});
+    }
+  });
+}
+
 export const one = (req, res, next) => {
   console.log('new get one post');
   const id = req.params.id;

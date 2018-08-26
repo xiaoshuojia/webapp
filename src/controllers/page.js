@@ -65,7 +65,7 @@ export const signout = (req, res, next) => {
 }
 
 export const categories = (req, res, next) => {
-
+  
   res.render('categories');
 }
 
@@ -111,5 +111,4 @@ export  const archiveshow = (req, res, next) => {
       res.render('archiveshow', {postsList: posts})
     })
   })
-
 }

@@ -7,7 +7,6 @@ export const more = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    console.log(`doc1: ${doc[0].time}`);
     res.json({sucess: true, ArchivesList: doc});
   })
 };

@@ -11,34 +11,34 @@
   </ul>
 </div>
 <% } %>
-<div id="app">
-  <div class="col-md-9">
-    <h1><%= title %></h1>
-    <!-- 使用list-group组件来显示文章 -->
-    <ul class="list-group" v-for="item in PostsList">
-      <li class="list-group-item">
-        <a v-bind:href="item.url">{{ item.title }}</a>
-      </li>
-    </ul>
-  </div>
-  <div class="col-md-3">
-    <strong>分类</strong>
-    <span><a href="/categories">管理</a> </span>
-    <ul class="list-group" v-for="item in CategoriesList">
-      <li class="list-group-item">
-        <a v-bind:href="item.url">{{ item.name }}</a>
-      </li>
-    </ul>
-  </div>
-  <div class="col-md-3">
-    <span ><strong>归档</strong></span>
-    <span><a href="/archives">管理</a> </span>
-    <ul class="list-group" v-for="item in ArchivesList">
-      <li class="list-group-item">
-        <a :href="item.url">{{ item.name }}</a>
-      </li>
-    </ul>
-  </div>
+
+<div class="col-md-9">
+  <h1><%= title %></h1>
+  <!-- 使用list-group组件来显示文章 -->
+  <ul class="list-group" v-for="item in PostsList">
+    <li class="list-group-item">
+      <a v-bind:href="item.url">{{ item.sortId }} {{ item.title }}</a>
+    </li>
+  </ul>
+  <button type="button" name="button" v-if="isLoad" v-on:click="loadMore()">加载更多</button>
+</div>
+<div class="col-md-3">
+  <strong>分类</strong>
+  <span><a href="/categories">管理</a> </span>
+  <ul class="list-group" v-for="item in CategoriesList">
+    <li class="list-group-item">
+      <a v-bind:href="item.url">{{ item.name }}</a>
+    </li>
+  </ul>
+</div>
+<div class="col-md-3">
+  <span ><strong>归档</strong></span>
+  <span><a href="/archives">管理</a> </span>
+  <ul class="list-group" v-for="item in ArchivesList">
+    <li class="list-group-item">
+      <a :href="item.url">{{ item.name }}</a>
+    </li>
+  </ul>
 </div>
 
 <script>
@@ -48,21 +48,25 @@
             PostsList: [],
             CategoriesList: [],
             date: [],
-            ArchivesList: []
+            ArchivesList: [],
+            PageCount: 1,
+            isLoad: true
         },
         methods: {
             fetchData() {
-                axios.get('/api/v1/posts')
+                axios.get('/api/v1/posts/pagecount/' + vm.PageCount++ )
                 .then(function(response){
                   console.log('response:' + response);
                     vm.PostsList = response.data.PostsList;
+                    var i = 1;
                     vm.PostsList.forEach(function(element){
+                      element.sortId = i++;
                       element.url = '/posts/show?id=' + element._id;
                     });
                     console.log(vm.PostsList);
                 })
                 .catch(function(err){
-                  alert(err.response.data.error);
+                  alert(err.message);
                 });
 
                 axios.get('/api/v1/categories')
@@ -93,6 +97,27 @@
                 .catch(function(err){
                   alert(err.message);
                 });
+            },
+            loadMore() {
+              axios.get('/api/v1/posts/pagecount/' + vm.PageCount++ )
+              .then(function(response){
+
+                console.log('response:' + response);
+                  var PostsList = response.data.PostsList;
+                  if (PostsList.length < 30) {
+                    vm.isLoad = false;
+                  }
+                  var i = 1;
+                  PostsList.forEach(function(element){
+                    element.sortId = 30 * (vm.PageCount - 2 ) + i++;
+                    element.url = '/posts/show?id=' + element._id;
+                    vm.PostsList.push(element);
+                  });
+                  console.log(vm.PostsList);
+              })
+              .catch(function(err){
+                alert(err.message);
+              });
             }
         }
     })

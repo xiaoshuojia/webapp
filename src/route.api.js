@@ -24,6 +24,9 @@ router.post('/posts', auth.adminRequired, post.create);
 // get posts
 router.get('/posts', post.more);
 
+// get posts about pagecount
+router.get('/posts/pagecount/:id', post.moreatpage);
+
 // get on specific article
 router.get('/posts/:id', post.one);
 
