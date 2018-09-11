@@ -1,8 +1,8 @@
 
 <div class="col-md-8 col-md-offset-2">
-  分类
-  <ul class="list-group" v-for="item in CategoriesList">
-    <li class="list-group-item">
+  <h1>分类</h1>
+  <ul class="list-group" >
+    <li class="list-group-item" v-for="item in CategoriesList">
       <template v-if="item.showType === 'show'">
         <a v-bind:href="item.url">{{ item.name }}</a>
       </template>
@@ -11,7 +11,7 @@
       </template>
 
       <!-- 如果是管理员则可以修改，删除分类，否则只显示 -->
-      <% if (currentUser.isAdmin) {%>
+      <% if ((currentUser) && (currentUser.isAdmin)) {%>
       <span>
         <button type="button" name="button" @click="modify(item.tid, item.name)">修改</button>
         <button type="button" name="button" v-on:click="remove(item.tid)">删除</button>
@@ -57,7 +57,7 @@
                     console.log(vm.CategoriesList);
                 })
                 .catch(function(err){
-                  alert(err.response.data.error);
+                  alert(err.message);
                 });
             },
 
@@ -76,7 +76,7 @@
                 window.location = '/categories';
               })
               .catch(function(err){
-                alert(err.response.data.error);
+                alert(err.message);
               })
             },
             modify: function(id, name) {
@@ -106,7 +106,7 @@
                 window.location = '/categories';
               })
               .catch(function(err) {
-                alert(err.response.data.error);
+                alert(err.message);
               });
             }
 

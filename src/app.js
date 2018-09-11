@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(auth.authUser);
 app.use('/', page)
-.use('/api/v1', api); // use the version
+.use('/api/v1', api); //use the version
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

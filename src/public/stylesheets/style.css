@@ -1,9 +1,93 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background: #E6CCA6 url(../images/bg.png) repeat fixed;
+  font-size: 18px;
+  letter-spacing: 1px;
+  line-height: 170%;
+  background-color: #fff;
 }
 
-a {
-  color: #00B7FF;
+div {
+
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 170%;
+}
+
+.body-bar {
+
+}
+.right-side-bar {
+  background-color:
+}
+
+.left-side-bar {
+
+}
+
+
+/* .footer{
+    clear: left;
+    position: absolute;
+    color: #555;
+    line-height: 200%;
+    bottom: 3px;
+    border:1px ;
+    text-align: center;
+    width: 100%;
+} */
+
+/* .footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+} */
+
+/* .footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  padding: 1rem;
+  margin-top: -3em;
+  z-index: 10;
+} */
+
+/* .footer {
+  position: relative;
+  bottom: 0;
+} */
+
+/* .footer{
+
+    position: absolute;
+    z-index: 10;
+    color: #555;
+    line-height: 200%;
+    bottom: 3px;
+    border:1px ;
+
+    width: 100%;
+} */
+/* .footer {
+  position: relative;
+  bottom: 0;
+} */
+
+.footer {
+  align-self: center;
+  color: #555;
+}
+
+.Site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Site-content {
+  flex: 1;
 }

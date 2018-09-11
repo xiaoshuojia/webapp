@@ -6,7 +6,7 @@ import MarkdownIt from 'markdown-it';
 import PostModel from './models/post.js';
 import config from './config.js';
 import * as auth from './middlewares/auth.js';  // 导出多个函数（对象），需要导出所有对象*，as作为一个别名auth来使用
-import * as page from './controllers/page.js'
+import * as page from './controllers/page.js';
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ router.get('/', page.index);
 // GET users page
 router.get('/users', auth.adminRequired, function(req, res, next){
     console.log('Get /users page');
-    res.send("zhangsan\n lisi\n wangerwangzi");
+    res.send('zhangsan\n lisi\n wangerwangzi');
 });
 
 // GET posts page
@@ -53,7 +53,7 @@ router.get('/categories/show', page.categoryshow);
 router.get('/archives/show', page.archiveshow);
 
 // Get the page of archives
-router.get('/archives', page.archives)
+router.get('/archives', page.archives);
 
 // module.exports = router;
 export default router;

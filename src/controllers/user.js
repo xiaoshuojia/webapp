@@ -10,8 +10,18 @@ export const signup = (req, res, next) => {
   const {name, email, pass, rePass} = req.body;
 
   if (pass !== rePass){
-    return errorHandle(new Error("两次密码不一致"), next);
+    return errorHandle(new Error('两次密码不一致'), next);
   }
+
+  // find the user name form the database
+  UserModel.findOne({name: name}, (err, doc) => {
+    if (err) {
+      return next(err);
+    }
+    if (doc) {
+      return next(new Error('用户名已存在，请重新输入'));
+    }
+  });
 
   const user = new UserModel();
   user.name = name ;
@@ -36,7 +46,7 @@ export const signup = (req, res, next) => {
       console.log('Save the email into mongodb');
     }
   });
-}
+};
 
 export const signin = (req, res, next ) => {
   const {name, pass} = req.body;
@@ -84,4 +94,4 @@ export const signin = (req, res, next ) => {
       res.json({ jwttoken });
     }
   });
-}
+};

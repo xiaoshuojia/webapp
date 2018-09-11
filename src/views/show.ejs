@@ -1,20 +1,24 @@
-
-<% if ((currentUser) && (article.authorId) && (currentUser && currentUser._id.toString() === article.authorId.toString())) { %>
-<div class="btn-group pull-right">
-  <button type="button" class="btn btn-default" name="button">操作</button>
-  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="button">
-    <span class="caret"></span>
-    <span class="sr-only">Toggle Dropdown</span>
-  </button>
-  <ul class="dropdown-menu">
-    <li><a href="/posts/edit?id=<%= article._id %>">编辑</a></li>
-    <li><a v-on:click="remove('<%= article._id %>')">删除</a></li>
-  </ul>
+<div class="container" id="main">
+  <% if ((currentUser) && (article.authorId) && (currentUser && currentUser._id.toString() === article.authorId.toString())) { %>
+  <div class="btn-group pull-right">
+    <button type="button" class="btn btn-default" name="button">操作</button>
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="button">
+      <span class="caret"></span>
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href="/posts/edit?id=<%= article._id %>">编辑</a></li>
+      <li><a v-on:click="remove('<%= article._id %>')">删除</a></li>
+    </ul>
+  </div>
+  <% } %>
+  <div id="body-frame" class="col-md-8 ">
+    <h1><%= article.title %></h1>
+    <time></time>
+    <p><%- article.content %></p>
+  </div>
 </div>
-<% } %>
-<h1><%= article.title %></h1>
 
-<p><%- article.content %></p>
 <script type="text/javascript">
   var vm = new Vue({
      el: "#app",
@@ -36,7 +40,114 @@
          .catch(function(err) {
            alert(err);
          });
+       },
+       showDirList() {
+         var tags = document.getElementsByTagName('*');
+         for (var i = 0; i < tags.length; i ++) {
+           console.log(`tags[${i}]: ${tags[i]}`);
+         }
        }
      }
    });
+
+   vm.showDirList();
+   $(function(){
+				//查找h1-h6
+				var hs = $(":header");  // 获取一个对象
+        console.log(`type of hs : ${typeof(hs)}`);
+        console.log(hs);
+        var arrHeads = [];
+        for (var i = 0; i < hs.length; i++) {
+          var objHead = {};
+          objHead.name = hs[i].innerHTML;
+          hs[i].setAttribute('id', objHead.name)
+          switch (hs[i].tagName) {
+            case 'H1':
+              hs[i].level = 0;
+              objHead.level = 0;
+              break;
+            case 'H2':
+            hs[i].level = 1;
+              objHead.level = 1;
+              break;
+            case 'H3':
+            hs[i].level = 2;
+              objHead.level = 2;
+              break;
+            case 'H4':
+            hs[i].level = 3;
+              objHead.level = 3;
+              break;
+            case 'H5':
+            hs[i].level = 4;
+              objHead.level = 4;
+              break;
+            case 'H6':
+            hs[i].level = 5;
+              objHead.level = 5;
+              break;
+            default:
+            hs[i].level = -1;
+              objHead.level = -1;
+          }
+          arrHeads.push(objHead);
+        }
+        for (var i = 0; i < arrHeads.length; i ++){
+          console.log(arrHeads[i].level);
+          console.log(arrHeads[i].name);
+        }
+        addList(hs);
+
+			});
+
+      // 添加目录列表，将目录列表和文章的各级标题对应，通过id属性
+    var addList = function(arr){
+
+      console.log(`addList\n--------------\n`);
+      console.log(`type of arr, ${typeof(arr)}`);
+      for (var i = 0; i < arr.length; i ++){
+        console.log(arr[i].level + arr[i].innerHTML);
+      }
+
+      var newDiv = document.createElement('div');
+      newDiv.setAttribute('class', 'col-md-3');
+      var newUl = document.createElement("ul");
+      for (var i = 0; i < arr.length; i ++){
+        var newLi = document.createElement('li');
+        var text = '';
+        for (var j = 0; j < arr[i].level; j ++){
+          text += '&nbsp;';
+        }
+        // for (var j = 0; j < 2; j ++){
+        //   text += ' ';
+        // }
+        text += arr[i].innerHTML;
+        var newTitle = document.createElement('a');
+        newTitle.setAttribute('href', '#' + arr[i].innerHTML);
+        var newContent = document.createTextNode(text);
+        newTitle.appendChild(newContent); //add the text node to the newly created div.
+        newLi.appendChild(newTitle);
+        newUl.appendChild(newLi);
+        newDiv.appendChild(newUl);
+      }
+
+
+
+
+      // add the newly created element and its content into the DOM
+      var currentDiv = document.getElementById("main");
+      currentDiv.appendChild(newDiv);
+    }
+
+    function scrollfun() {
+      var sidebar = document.getElementByClass('col-md-3');
+      var top1 = document.body.scrollTop;
+      if( top1 >= 100){
+        sidebar.position = 'absulote';
+        sidebar.top = top1;
+      }
+      else {
+
+      }
+    }
  </script>

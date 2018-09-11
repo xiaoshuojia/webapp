@@ -1,8 +1,8 @@
 <div id="app">
   <div class="col-md-8 col-md-offset-2">
-    分类
-    <ul class="list-group" v-for="item in ArchivesList">
-      <li class="list-group-item">
+    <h1>归档</h1>
+    <ul class="list-group" >
+      <li class="list-group-item" v-for="item in ArchivesList">
         <a v-bind:href="item.url">{{ item.name }}</a>
       </li>
     </ul>

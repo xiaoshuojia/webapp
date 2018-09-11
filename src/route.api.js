@@ -58,6 +58,6 @@ router.patch('/categories/:id', category.modify);
 router.delete('/categories/:id', category.deletecategory);
 
 // get archive
-router.get('/archives', archive.more)
+router.get('/archives', archive.more);
 // module.exports = router;
 export default router;

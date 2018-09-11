@@ -22,7 +22,7 @@ export const authUser = (req, res, next) => {
         return;
       }
       req.user = res.locals.currentUser = decoded;
-      return next()
+      return next();
     }
     catch(err){
       return next();
@@ -32,7 +32,7 @@ export const authUser = (req, res, next) => {
     next();
   }
 
-}
+};
 
 //es6 code
 
@@ -43,7 +43,7 @@ export const userRequired = (req, res, next) => {
     next(err);
     return;
   }
-}
+};
 // function adminRequired(req, res, next){
 export const adminRequired = (req, res, next) => {
   console.log('req.user： ' + req.user);
@@ -61,4 +61,4 @@ export const adminRequired = (req, res, next) => {
     return;
   }
   next();
-}
+};

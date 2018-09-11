@@ -8,20 +8,20 @@ const md = new MarkdownIt();
 export const index = (req, res, next) => {
   console.log('new index page handle');
   res.render('index', { title: 'My first web app' });
-}
+};
 
 export const posts = (req, res, next) => {
   console.log('new posts page handle');
   res.render('posts', {title: 'Hello posts'});
-}
+};
 
 export const create = (req, res, next) => {
-  console.log("new create artile page handle");
+  console.log('new create artile page handle');
   res.render('create', {title: 'create'});
-}
+};
 
 export const show = (req, res, next) => {
-  console.log("new show one post detail handle");
+  console.log('new show one post detail handle');
   const id = req.query.id;
   console.log(`id: ${id}`);
   PostModel.findOne({_id: id}, (err, article) => {
@@ -38,23 +38,23 @@ export const show = (req, res, next) => {
     article.content = md.render(article.content);
     res.render('show', {article});
   });
-}
+};
 
 export const edit = (req, res, next ) => {
 
     const id = req.query.id;
 
     res.render('edit', { id });
-}
+};
 
 export const signup = (req, res, next) => {
   res.render('signup');
-}
+};
 
 
 export const signin = (req, res, next) => {
     res.render('signin');
-}
+};
 
 
 export const signout = (req, res, next) => {
@@ -62,12 +62,12 @@ export const signout = (req, res, next) => {
   res.clearCookie(config.cookieName, {path: '/'});
   console.log('Clear the cookie: ' + config.cookieName);
   res.redirect('/');
-}
+};
 
 export const categories = (req, res, next) => {
-  
+
   res.render('categories');
-}
+};
 
 export  const categoryshow = (req, res, next) => {
   const { id } = req.query;
@@ -82,11 +82,11 @@ export  const categoryshow = (req, res, next) => {
 
     res.render('categoryshow', {postsList});
   });
-}
+};
 
 export const archives = (req, res, next) => {
   res.render('archives');
-}
+};
 
 export  const archiveshow = (req, res, next) => {
   const { id } = req.query;
@@ -95,20 +95,18 @@ export  const archiveshow = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    if (doc) {
-
-    }
+    
     var testT1 = TimeFormat.getCurrentAchiveTime();
     var date = new Date(doc.time);
     var currentAchiveTime = doc.time;
     var nextArchiveTime = TimeFormat.getNextArchiveTime(currentAchiveTime);
-    var nextDate = new Date(nextArchiveTime)
+    var nextDate = new Date(nextArchiveTime);
     // find the posts
     PostModel.find({createDate: {$gte: currentAchiveTime, $lt: nextArchiveTime, $exists: true}}, (err, posts) => {
       if(err) {
         return next(err);
       }
-      res.render('archiveshow', {postsList: posts})
-    })
-  })
-}
+      res.render('archiveshow', {postsList: posts});
+    });
+  });
+};

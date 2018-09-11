@@ -1,45 +1,40 @@
 <!-- 添加新建文章的按钮，使用Split button -->
-<% if (currentUser) { %>
-<div class="btn-group pull-right">
-  <button type="button" class="btn btn-default" name="button">操作</button>
-  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="button">
-    <span class="caret"></span>
-    <span class="sr-only">Toggle Dropdown</span>
-  </button>
-  <ul class="dropdown-menu">
-    <li><a href="/posts/create">新建</a></li>
-  </ul>
-</div>
-<% } %>
+<div class="container">
 
-<div class="col-md-9">
-  <h1><%= title %></h1>
-  <!-- 使用list-group组件来显示文章 -->
-  <ul class="list-group" v-for="item in PostsList">
-    <li class="list-group-item">
-      <a v-bind:href="item.url">{{ item.sortId }} {{ item.title }}</a>
-    </li>
-  </ul>
-  <button type="button" name="button" v-if="isLoad" v-on:click="loadMore()">加载更多</button>
+  <div class="col-md-9">
+    <!-- <h1><%= title %></h1> -->
+    <!-- 使用list-group组件来显示文章 -->
+    文章列表
+    <ul class="list-group" >
+      <li class="list-group-item" v-for="item in PostsList">
+        <a v-bind:href="item.url">{{ item.sortId }} {{ item.title }}</a>
+      </li>
+    </ul>
+    <div class=".row">
+      <button type="button" name="button" v-if="isLoad" v-on:click="loadMore()" class="btn btn-default btn-lg" style="width: 100%; line-height: 120%;">加载更多</button>
+    </div>
+
+  </div>
+  <div class="col-md-3">
+    <span><a href="/categories">分类</a> </span>
+    <ul class="list-group" >
+      <li class="list-group-item" v-for="item in CategoriesList">
+        <a v-bind:href="item.url">{{ item.name }}</a>
+      </li>
+    </ul>
+    <hr>
+  </div>
+
+  <div class="col-md-3">
+    <span><a href="/archives">归档</a> </span>
+    <ul class="list-group" v-for="item in ArchivesList">
+      <li class="list-group-item">
+        <a :href="item.url">{{ item.name }}</a>
+      </li>
+    </ul>
+  </div>
 </div>
-<div class="col-md-3">
-  <strong>分类</strong>
-  <span><a href="/categories">管理</a> </span>
-  <ul class="list-group" v-for="item in CategoriesList">
-    <li class="list-group-item">
-      <a v-bind:href="item.url">{{ item.name }}</a>
-    </li>
-  </ul>
-</div>
-<div class="col-md-3">
-  <span ><strong>归档</strong></span>
-  <span><a href="/archives">管理</a> </span>
-  <ul class="list-group" v-for="item in ArchivesList">
-    <li class="list-group-item">
-      <a :href="item.url">{{ item.name }}</a>
-    </li>
-  </ul>
-</div>
+
 
 <script>
     var vm = new Vue({
@@ -80,7 +75,7 @@
                     console.log(vm.CategoriesList);
                 })
                 .catch(function(err){
-                  alert(err.response.data.error);
+                  alert(err.message);
                 });
                 // 获取归档分类
                 axios.get('/api/v1/archives')

@@ -7,7 +7,7 @@ import config from '../config.js';
 import moment from 'moment';
 
 export const more = (req, res, next) => {
-  console.log(`Get posts categories.`);
+  console.log('Get posts categories.');
   CategoryModel.find({}, {}, (err, categories) => {
     if (err){
       next(err);
@@ -20,7 +20,7 @@ export const more = (req, res, next) => {
       res.json({success: true, CategoriesList: categories});
     }
   });
-}
+};
 
 export const create = (req, res, next) => {
   const {name} = req.body;
@@ -44,7 +44,7 @@ export const create = (req, res, next) => {
     }
     res.json({category: doc});  // 返回新建的分类
   });
-}
+};
 
 export const modify = (req, res, next) => {
   const { id } = req.params;
@@ -76,5 +76,5 @@ export const deletecategory = (req, res, next) => {
       }
       // success
       res.json({success: true});
-  })
+  });
 };

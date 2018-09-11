@@ -9,7 +9,7 @@ export const getCurrentAchiveTime = () => {
   var t4 = year + '-' + month + '-01';
   var t5 = new Date(t4);
   return  t5.getTime();   // 返回当前月份第一天的零点时间。
-}
+};
 
 export const getNextArchiveTime = (time) => {
   var t3 = new Date(time);
@@ -22,5 +22,5 @@ export const getNextArchiveTime = (time) => {
   }
   var t4 = year + '-' + month + '-01';
   var t5 = new Date(t4);
-  return  t5.getTime();   
-}
+  return  t5.getTime();
+};

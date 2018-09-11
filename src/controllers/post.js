@@ -2,7 +2,7 @@ import PostModel from '../models/post.js';
 import UserModel from '../models/user.js';
 import CategoryModel from '../models/category.js';
 import ArchiveModel from '../models/archive.js';
-import TimeFormat from '../util/timeformat';
+import * as TimeFormat from '../util/timeformat';
 import bcrypt from 'bcrypt';
 import jwt from 'jwt-simple';
 import config from '../config.js';
@@ -54,7 +54,7 @@ export const create = (req, res, next) => {
       }
     });
   });
-}
+};
 
 export const more = (req, res, next) => {
   // Get posts from MongoDb
@@ -68,7 +68,7 @@ export const more = (req, res, next) => {
       res.json({success: true, PostsList: posts});
     }
   });
-}
+};
 
 // Get the posts aoubt the pagecount
 export const moreatpage = (req, res, next) => {
@@ -77,8 +77,17 @@ export const moreatpage = (req, res, next) => {
   var {id} = req.params;
   console.log(`id: ${id}`);
   id--;
-  PostModel.find({}, {}, {skip: id * 30, limit: 30},(err, posts) => {
-    if (err){
+  // PostModel.find({}, {}, {skip: id * 30, limit: 30},(err, posts) => {
+  //   if (err){
+  //     next(err);
+  //     return;
+  //   }
+  //   else {
+  //     res.json({success: true, PostsList: posts});
+  //   }
+  // });
+  PostModel.find().sort({_id: -1}).skip(id * 30).limit(30).exec((err, posts) => {
+    if (err) {
       next(err);
       return;
     }
@@ -86,7 +95,7 @@ export const moreatpage = (req, res, next) => {
       res.json({success: true, PostsList: posts});
     }
   });
-}
+};
 
 export const one = (req, res, next) => {
   console.log('new get one post');
@@ -95,10 +104,10 @@ export const one = (req, res, next) => {
     if (err){
       next(err);
       return;
-    };
+    }
     res.json({success: true, post});
   });
-}
+};
 
 export const edit = (req, res, next) => {
   console.log('new handle edit ');
@@ -111,15 +120,15 @@ export const edit = (req, res, next) => {
     }
     res.json({success: true});
   });
-}
+};
 
 export const remove = (req, res, next) => {
   var {id} = req.params;
   console.log(`remove the article id: ${id}`);
   PostModel.remove({_id: id}, function(err){
     if(err) {
-        return next('delete the article failed!')
+        return next('delete the article failed!');
     }
     res.json({success: true});
-  })
+  });
 };
