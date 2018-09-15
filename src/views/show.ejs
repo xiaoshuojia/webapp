@@ -12,7 +12,7 @@
     </ul>
   </div>
   <% } %>
-  <div id="body-frame" class="col-md-8 ">
+  <div id="body-frame" class="col-md-8 mainbar" >
     <h1><%= article.title %></h1>
     <time></time>
     <p><%- article.content %></p>
@@ -97,7 +97,7 @@
           console.log(arrHeads[i].name);
         }
         addList(hs);
-
+        setSidebar();
 			});
 
       // 添加目录列表，将目录列表和文章的各级标题对应，通过id属性
@@ -110,19 +110,22 @@
       }
 
       var newDiv = document.createElement('div');
-      newDiv.setAttribute('class', 'col-md-3');
+      newDiv.setAttribute('class', 'col-md-3 sidebar container');
+      // newDiv.setAttribute('style', 'background-color: rgb(240, 240, 240)');
+      newDiv.setAttribute('style', 'margin-left: 10px');
+
+      newDiv.id = 'sidebar';
+      var titleOfArticle =  document.createTextNode('文章目录');
+      newDiv.appendChild(titleOfArticle);
       var newUl = document.createElement("ul");
       for (var i = 0; i < arr.length; i ++){
         var newLi = document.createElement('li');
+        newLi.className = 't' + arr[i].level;
         var text = '';
-        for (var j = 0; j < arr[i].level; j ++){
-          text += '&nbsp;';
-        }
-        // for (var j = 0; j < 2; j ++){
-        //   text += ' ';
-        // }
         text += arr[i].innerHTML;
         var newTitle = document.createElement('a');
+
+
         newTitle.setAttribute('href', '#' + arr[i].innerHTML);
         var newContent = document.createTextNode(text);
         newTitle.appendChild(newContent); //add the text node to the newly created div.
@@ -139,15 +142,26 @@
       currentDiv.appendChild(newDiv);
     }
 
-    function scrollfun() {
-      var sidebar = document.getElementByClass('col-md-3');
-      var top1 = document.body.scrollTop;
-      if( top1 >= 100){
-        sidebar.position = 'absulote';
-        sidebar.top = top1;
-      }
-      else {
-
-      }
+    // 设置侧边栏不随滚动条滚动，即固定位置
+    var setSidebar = function scrollfun() {
+      var sidebar = document.getElementById('sidebar');
+      // var top1 = document.body.scrollTop;
+      // var offsetTop = sidebar.offsetTop;
+      // console.log(sidebar.position);
+      var float = window.getComputedStyle(sidebar, null).float;
+      console.log(float);
+      var position = window.getComputedStyle(sidebar, null).position;
+      console.log(position);
+      sidebar.float = 'none';
+      sidebar.position = 'fixed';
+      sidebar.top = '0px';
+      sidebar.bottom = '0px';
+      // sidebar.setAttribute('position', 'fixed');
+      // sidebar.top = offsetTop;
+      // sidebar.className = '';
+      var float = window.getComputedStyle(sidebar, null).float;
+      console.log(float);
+      var position = window.getComputedStyle(sidebar, null).position;
+      console.log(position);
     }
  </script>

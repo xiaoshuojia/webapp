@@ -1,5 +1,4 @@
 body {
-  padding: 50px;
   font-size: 18px;
   letter-spacing: 1px;
   line-height: 170%;
@@ -11,7 +10,7 @@ div {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  line-height: 170%;
+  /* line-height: 170%; */
 }
 
 .body-bar {
@@ -25,6 +24,30 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
+.t0, .t1, .t2, .t3, .t4, .t5 {
+  list-style-type: none;
+}
+.t1, .t2, .t3, .t4, .t5 {
+  font-size: 0.8em;
+}
+.t0 {
+  padding-left: 0em;
+}
+.t1 {
+  padding-left: 1em;
+}
+.t2 {
+  padding-left: 2em;
+}
+.t3 {
+  padding-left: 3em;
+}
+.t4 {
+  padding-left: 4em;
+}
+.t5 {
+  padding-left: 5em;
+}
 
 /* .footer{
     clear: left;
@@ -90,4 +113,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .Site-content {
   flex: 1;
+}
+
+.mainbar {
+  background-color: #fff;
+}
+
+.sidebar {
+  background-color: #fff;
+  padding-left: 2px;
 }

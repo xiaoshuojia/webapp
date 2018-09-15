@@ -10,9 +10,11 @@
         <a v-bind:href="item.url">{{ item.sortId }} {{ item.title }}</a>
       </li>
     </ul>
+
     <div class=".row">
       <button type="button" name="button" v-if="isLoad" v-on:click="loadMore()" class="btn btn-default btn-lg" style="width: 100%; line-height: 120%;">加载更多</button>
     </div>
+
 
   </div>
   <div class="col-md-3">
@@ -53,12 +55,17 @@
                 .then(function(response){
                   console.log('response:' + response);
                     vm.PostsList = response.data.PostsList;
+                    if(vm.PostsList.length < 30){
+                      vm.isLoad = false;
+                    }
+                    else {
+                      vm.isLoad = true;
+                    }
                     var i = 1;
                     vm.PostsList.forEach(function(element){
                       element.sortId = i++;
                       element.url = '/posts/show?id=' + element._id;
                     });
-                    console.log(vm.PostsList);
                 })
                 .catch(function(err){
                   alert(err.message);
